@@ -32,8 +32,7 @@
 
     <v-system-bar
       app
-      dark
-      color="primary"
+      color="white"
       height="50"
     >
       <v-spacer></v-spacer>
@@ -59,11 +58,9 @@
 
     <v-app-bar
       app
-      dense
       flat
       :prominent="prominent"
-      color="primary"
-      dark
+      color="white"
     >
       <div class="d-flex align-center">
         <v-img
@@ -75,14 +72,14 @@
           width="40"
         />
 
-        <v-img
-          alt="Vuetify Name"
+        <v-app-bar-title
           class="shrink mt-1 hidden-sm-and-down"
           contain
           min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
           width="100"
-        />
+        >
+          Space Marine
+        </v-app-bar-title>
       </div>
 
       <v-spacer></v-spacer>
@@ -91,20 +88,22 @@
         <div
           class="shrink mt-1 hidden-sm-and-down"
         >
-          <v-btn
-            text
-            to="/"
+          <v-tabs
+            align-with-title
           >
-            <v-icon>fa-home</v-icon>
-            <span class="ml-2">Home</span>
-          </v-btn>
-          <v-btn
-            text
-            to="/items"
-          >
-            <v-icon>fa-list</v-icon>
-            <span class="ml-2">Items</span>
-          </v-btn>
+            <v-tab
+              to="/"
+            >
+              Home
+            </v-tab>
+            <v-tab
+              to="/items"
+            >
+              Items
+            </v-tab>
+            <v-tabs-slider color="black"></v-tabs-slider>
+          </v-tabs>
+
         </div>
         <v-app-bar-nav-icon 
           class="shrink mt-1 hidden-sm-and-up"
