@@ -26,35 +26,18 @@
             </v-list-item-icon>
             <v-list-item-title>Items</v-list-item-title>
           </v-list-item>
+
+          <v-spacer></v-spacer>
+
+          <v-list-item to="/account">
+            <v-list-item-icon>
+              <v-icon>fa-user</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Acount</v-list-item-title>
+          </v-list-item>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
-
-    <v-system-bar
-      app
-      color="white"
-      height="50"
-    >
-      <v-spacer></v-spacer>
-      
-      <v-btn
-        icon
-      >
-        <v-icon>fa-user-circle</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        to="/login"
-      >
-        <v-icon>mdi-login</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        to="/logout"
-      >
-        <v-icon>mdi-logout</v-icon>
-      </v-btn>
-    </v-system-bar>
 
     <v-app-bar
       app
@@ -91,22 +74,21 @@
           <v-tabs
             align-with-title
           >
-            <v-tab
-              to="/"
-            >
+            <v-tab to="/">
               Home
             </v-tab>
-            <v-tab
-              to="/items"
-            >
+            <v-tab to="/items">
               Items
+            </v-tab>
+            <v-tab to="/account">
+              Account
             </v-tab>
             <v-tabs-slider color="black"></v-tabs-slider>
           </v-tabs>
 
         </div>
         <v-app-bar-nav-icon 
-          class="shrink mt-1 hidden-sm-and-up"
+          class="shrink mt-1 hidden-md-and-up"
           @click="drawer = true"></v-app-bar-nav-icon>
       </div>
     </v-app-bar>
@@ -123,7 +105,17 @@
     </v-main>
 
     <v-footer app>
-      Copyright 2021. Space Marine
+      <v-row
+        align="center"
+        justify="center"
+      >
+        <v-col
+          class="text-center"
+          cols="12"
+        >
+          Copyrightⓒ2021 All rights reserved Space-Marine Co.
+        </v-col>
+      </v-row>
     </v-footer>
   </v-app>
 </template>
@@ -134,7 +126,7 @@ export default {
 
   data: () => ({
     drawer: false,
-    prominent: true,
+    prominent: false,
   }),
 };
 </script>
