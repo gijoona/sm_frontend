@@ -20,11 +20,11 @@
             </v-list-item-icon>
             <v-list-item-title>Home</v-list-item-title>
           </v-list-item>
-          <v-list-item to="/items">
+          <v-list-item to="/prices">
             <v-list-item-icon>
               <v-icon>fa-list</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>Items</v-list-item-title>
+            <v-list-item-title>Prices</v-list-item-title>
           </v-list-item>
 
           <v-spacer></v-spacer>
@@ -77,8 +77,8 @@
             <v-tab to="/">
               Home
             </v-tab>
-            <v-tab to="/items">
-              Items
+            <v-tab to="/prices">
+              Prices
             </v-tab>
             <v-tab to="/account">
               Account
