@@ -57,7 +57,7 @@ export default {
   methods: {
     findAll() {
       return this.$http
-                  .get('http://localhost:5000/items/findAll')
+                  .get('http://ec2-3-12-199-144.us-east-2.compute.amazonaws.com:5000/items/findAll')
                   .then(res => {
                     if(res.data.length > 0) this.items = res.data
                   })
