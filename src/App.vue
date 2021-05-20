@@ -1,5 +1,7 @@
 <template>
-  <v-app>
+  <v-app
+    style="background: #FAFAF0;"
+  >
     <v-navigation-drawer 
       app
       v-model="drawer"
@@ -43,7 +45,7 @@
       app
       flat
       :prominent="prominent"
-      color="white"
+      :color="bg_color"
     >
       <div class="d-flex align-center">
         <v-img
@@ -67,12 +69,15 @@
 
       <v-spacer></v-spacer>
 
-      <div class="d-flex align-right">
+      <div 
+        class="d-flex align-right"
+      >
         <div
           class="shrink mt-1 hidden-sm-and-down"
         >
           <v-tabs
             align-with-title
+            :background-color="bg_color"
           >
             <v-tab to="/">
               Home
@@ -127,6 +132,7 @@ export default {
   data: () => ({
     drawer: false,
     prominent: false,
+    bg_color: '#FAFAF0',
   }),
 };
 </script>
