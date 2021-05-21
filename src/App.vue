@@ -106,6 +106,20 @@
 
         <!-- If using vue-router -->
         <router-view></router-view>
+
+        <v-fab-transition>
+          <v-btn
+            color="indigo"
+            dark
+            fixed
+            bottom
+            right
+            fab
+            @click="$vuetify.goTo(target, options)"
+          >
+            <v-icon>mdi-chevron-up</v-icon>
+          </v-btn>
+        </v-fab-transition>
       </v-container>
     </v-main>
 
@@ -133,6 +147,24 @@ export default {
     drawer: false,
     prominent: false,
     bg_color: '#FAFAF0',
+    type: 'number',
+    number: 0,
+    duration: 500,
+    offset: 0,
+    easing: 'easeInOutCubic',
   }),
+
+  computed: {
+    target() {
+      return Number(this[this.type])
+    },
+    options() {
+      return {
+        duration: this.duration,
+        offset: this.offset,
+        easing: this.easing
+      }
+    }
+  }
 };
 </script>
