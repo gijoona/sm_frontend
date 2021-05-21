@@ -25,23 +25,79 @@
     
     <v-row>
       <v-col v-for="item in items" :key="item.code">
-        <v-card
-          min-height="460"
+        <v-dialog
+          transition="dialog-bottom-transition"
+          max-width="800"
         >
-          <v-img 
-            height="250"
-            src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-          ></v-img>
-          <v-card-title>{{ item.name }}</v-card-title>
+          <template v-slot:activator="{ on, attrs }">
+            <v-card
+              v-bind="attrs"
+              v-on="on"
+              min-height="460"
+            >
+              <v-img 
+                height="250"
+                src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+              ></v-img>
+              <v-card-title>{{ item.name }}</v-card-title>
 
-          <v-divider class="mx-4"></v-divider>
+              <v-divider class="mx-4"></v-divider>
 
-          <v-card-text>
-            <div>코드번호 : {{ item.code }}</div>
-            <div>단위 : {{ item.unit }}</div>
-            <div>가격(WON) : {{ item.price }}</div>
-          </v-card-text>
-        </v-card>
+              <v-card-text>
+                <div>코드번호 : {{ item.code }}</div>
+                <div>단위 : {{ item.unit }}</div>
+                <div>가격(WON) : {{ item.price }}</div>
+              </v-card-text>
+
+              <v-divider class="mx-2"></v-divider>
+              <v-card-actions>
+                <v-btn
+                  block
+                  color="indigo"
+                  @click.stop="addCart"
+                >
+                  Add Cart
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </template>
+          <template v-slot:default="dialog">
+            <v-card>
+              <v-toolbar
+                color="indigo"
+                dark
+                tile
+                class="text-h6"
+              >{{ item.name }}</v-toolbar>
+
+              <v-img 
+                height="250"
+                src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+              ></v-img>
+              <v-card-title>{{ item.name }}</v-card-title>
+
+              <v-divider class="mx-4"></v-divider>
+
+              <v-card-text>
+                <div>코드번호 : {{ item.code }}</div>
+                <div>단위 : {{ item.unit }}</div>
+                <div>가격(WON) : {{ item.price }}</div>
+              </v-card-text>
+              <v-card-actions class="justify-end">
+                <v-btn
+                  color="indigo"
+                  @click.stop="addCart"
+                >
+                  Add Cart
+                </v-btn>
+                <v-btn
+                  text
+                  @click="dialog.value = false"
+                >Close</v-btn>
+              </v-card-actions>
+            </v-card>
+          </template>
+        </v-dialog>
       </v-col>
     </v-row>
   </div>
@@ -64,6 +120,9 @@ export default {
     },
     search() {
       alert('search')
+    },
+    addCart() {
+      alert('added Cart')
     }
   },
   mounted() {
