@@ -14,7 +14,7 @@
 import Category from '@/components/Category.vue'
 import Items from '@/components/Items.vue'
 
-export default ({
+export default {
   name: 'Prices',
   data: () => {
     return {}
@@ -23,5 +23,5 @@ export default ({
     Category,
     Items
   }
-})
+}
 </script>
