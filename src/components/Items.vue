@@ -39,14 +39,14 @@
                 height="250"
                 src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
               ></v-img>
-              <v-card-title>{{ item.name }}</v-card-title>
+              <v-card-title>{{ item.nameKor }}</v-card-title>
 
               <v-divider class="mx-4"></v-divider>
 
               <v-card-text>
                 <div>코드번호 : {{ item.code }}</div>
                 <div>단위 : {{ item.unit }}</div>
-                <div>가격(WON) : {{ item.price }}</div>
+                <div>가격(WON) : {{ item.buyPrice }}</div>
               </v-card-text>
 
               <v-divider class="mx-2"></v-divider>
@@ -68,20 +68,21 @@
                 dark
                 tile
                 class="text-h6"
-              >{{ item.name }}</v-toolbar>
+              >{{ item.nameKor }}</v-toolbar>
 
               <v-img 
                 height="250"
                 src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
               ></v-img>
-              <v-card-title>{{ item.name }}</v-card-title>
+              <v-card-title>{{ item.nameKor }}</v-card-title>
 
               <v-divider class="mx-4"></v-divider>
 
               <v-card-text>
+                <div>{{ item.description }}</div>
                 <div>코드번호 : {{ item.code }}</div>
                 <div>단위 : {{ item.unit }}</div>
-                <div>가격(WON) : {{ item.price }}</div>
+                <div>가격(WON) : {{ item.buyPrice }}</div>
               </v-card-text>
               <v-card-actions class="justify-end">
                 <v-btn
@@ -113,7 +114,8 @@ export default {
   methods: {
     findAll() {
       return this.$http
-                  .get('http://ec2-3-12-199-144.us-east-2.compute.amazonaws.com:5000/items/findAll')
+                  // .get('http://ec2-3-12-199-144.us-east-2.compute.amazonaws.com:5000/items/findAll')
+                  .get('http://localhost:5000/items/findAll')
                   .then(res => {
                     if(res.data.length > 0) this.items = res.data
                   })
