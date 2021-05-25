@@ -1,6 +1,8 @@
 // initial state
 const state = () => ({
-  all: []
+  all: [],
+  code: '',
+  name: '부식'
 })
 
 // getters
@@ -10,7 +12,14 @@ const getters = {}
 const actions = {}
 
 // mutations
-const mutations = {}
+const mutations = {
+  setCategoryCode(state, payload) {
+    state.code = payload;
+  },
+  setCategoryName(state, payload) {
+    state.name = payload;
+  }
+}
 
 export default {
   namespaced: true,

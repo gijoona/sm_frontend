@@ -1,5 +1,29 @@
 <template>
-  <div>
+  <div
+    v-scroll="handleScroll"
+  >
+
+    <v-dialog
+      v-model="loading"
+      hide-overlay
+      persistent
+      width="300"
+    >
+      <v-card
+        color="primary"
+        dark
+      >
+        <v-card-text>
+          Please stand by
+          <v-progress-linear
+            indeterminate
+            color="white"
+            class="mb-0"
+          ></v-progress-linear>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+
     <v-card
       color="indigo"
       class="d-flex mb-2"
@@ -7,8 +31,19 @@
     >
       <v-card-text>
         <v-row>
+          <v-col>
+            <v-btn
+              dark
+              text
+              class="text-h6 font-weight-black"
+            >
+              <v-icon>mdi-chevron-right</v-icon>
+              <v-label>{{ this.$store.state.category.name }}</v-label>
+            </v-btn>
+          </v-col>
           <v-col class="ml-auto" sm="12" md="5" lg="3">
             <v-text-field
+              v-model="searchTxt"
               label="Search"
               placeholder="코드번호, 주요단어"
               dense
@@ -17,14 +52,18 @@
               hide-details
               append-icon="fa-search"
               @click:append="search"
+              @keydown.enter="search"
             ></v-text-field>
           </v-col>
         </v-row>
       </v-card-text>
     </v-card>
-    
+
     <v-row>
-      <v-col v-for="item in items" :key="item.code">
+      <v-col 
+        v-for="item in items" :key="item.code"
+        sm="12" md="4" lg="3"
+      >
         <v-dialog
           transition="dialog-bottom-transition"
           max-width="800"
@@ -104,31 +143,75 @@
   </div>
 </template>
 <script>
+import Vue from 'vue'
+
+// scroll directive
+Vue.directive('scroll', {
+  inserted: function (el, binding) {
+    let f = function (evt) {
+      if (binding.value(evt, el)) {
+        window.removeEventListener('scroll', f)
+      }
+    }
+    window.addEventListener('scroll', f)
+  }
+})
+
 export default {
   name: 'Items',
   data() {
     return {
-      items: []
+      searchTxt: '',
+      dialog: true,
+      loading: false
+    }
+  },
+  watch:{
+    categoryCode() {
+      this.initPage();
+    }
+  },
+  computed: {
+    categoryCode() {
+      return this.$store.state.category.code;
+    },
+    items() {
+      return this.$store.getters['item/items'];
     }
   },
   methods: {
+    handleScroll() {
+      const scrollPos = window.scrollMaxY - window.scrollY;
+      if (100 > scrollPos) {
+        this.loading = true;
+        setInterval(() => { if (this.loading) this.loading = false }, 5000)
+        this.$store.dispatch('item/nextPage', { categoryCode: this.categoryCode, searchTxt: this.searchTxt });
+      }
+    },
     findAll() {
-      return this.$http
-                  // .get('http://ec2-3-12-199-144.us-east-2.compute.amazonaws.com:5000/items/findAll')
-                  .get('http://localhost:5000/items/findAll')
-                  .then(res => {
-                    if(res.data.length > 0) this.items = res.data
-                  })
+      this.$store.dispatch('item/findAll', { categoryCode: this.categoryCode }).then(() => this.loading = false);
     },
     search() {
-      alert('search')
+      this.loading = true;
+      this.$store.commit('item/resetCount');
+      this.$store.commit('item/resetPageNum');
+      this.$store.commit('item/resetItems');
+      this.$store.dispatch('item/search', { categoryCode: this.categoryCode, searchTxt: this.searchTxt }).then(() => this.loading = false);
     },
     addCart() {
       alert('added Cart')
+    },
+    initPage() {
+      this.loading = true;
+      this.searchTxt = '';
+      this.$store.commit('item/resetCount');
+      this.$store.commit('item/resetPageNum');
+      this.$store.commit('item/resetItems');
+      this.findAll();
     }
   },
   mounted() {
-    this.findAll();
+    this.initPage();
   }
 }
 </script>
