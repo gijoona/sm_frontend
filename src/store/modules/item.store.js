@@ -20,8 +20,8 @@ const actions = {
   async findAll({ commit, state }, payload) {
     if (state.count < state.limit) return;
     await axios
-            // .get('http://ec2-3-12-199-144.us-east-2.compute.amazonaws.com:5000/items/findAll')
-            .get(`http://172.21.13.235:5000/items/findAll?page=${state.pageNum}&limit=${state.limit}${payload.categoryCode ? '&category=' + payload.categoryCode : ''}`)
+            .get(`http://ec2-3-12-199-144.us-east-2.compute.amazonaws.com:5000/items/findAll?page=${state.pageNum}&limit=${state.limit}${payload.categoryCode ? '&category=' + payload.categoryCode : ''}`)
+            // .get(`http://172.21.13.235:5000/items/findAll?page=${state.pageNum}&limit=${state.limit}${payload.categoryCode ? '&category=' + payload.categoryCode : ''}`)
             .then(res => {
               commit('setCount', res.data.length);
               if(res.data.length > 0) commit('appendItem', res.data);
@@ -30,8 +30,8 @@ const actions = {
   async search({ commit, state }, payload) {
     if (state.count < state.limit) return;
     await axios
-            // .get('http://ec2-3-12-199-144.us-east-2.compute.amazonaws.com:5000/items/findAll')
-            .get(`http://172.21.13.235:5000/items/find?page=${state.pageNum}&limit=${state.limit}${payload.categoryCode ? '&category=' + payload.categoryCode : ''}${payload.searchTxt ? '&search=' + payload.searchTxt : ''}`)
+            .get(`http://ec2-3-12-199-144.us-east-2.compute.amazonaws.com:5000/items/find?page=${state.pageNum}&limit=${state.limit}${payload.categoryCode ? '&category=' + payload.categoryCode : ''}${payload.searchTxt ? '&search=' + payload.searchTxt : ''}`)
+            // .get(`http://172.21.13.235:5000/items/find?page=${state.pageNum}&limit=${state.limit}${payload.categoryCode ? '&category=' + payload.categoryCode : ''}${payload.searchTxt ? '&search=' + payload.searchTxt : ''}`)
             .then(res => {
               commit('setCount', res.data.length);
               if (res.data.length > 0) commit('appendItem', res.data);
