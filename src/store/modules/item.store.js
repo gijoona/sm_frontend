@@ -5,13 +5,31 @@ const state = () => ({
   items: [],
   limit: 30,
   pageNum: 0,
-  count: 30
+  count: 30,
+  total: 0,
+  loading: false,
+  isCardView: false
 })
 
 // getters
 const getters = {
   items(state) {
     return state.items;
+  },
+  loading(state) {
+    return state.loading;
+  },
+  pageNum(state) {
+    return state.pageNum;
+  },
+  limit(state) {
+    return state.limit;
+  },
+  total(state) {
+    return state.total;
+  },
+  isCardView(state) {
+    return state.isCardView;
   }
 }
 
@@ -19,33 +37,49 @@ const getters = {
 const actions = {
   async findAll({ commit, state }, payload) {
     if (state.count < state.limit) return;
+    commit('enableLoading');
     await axios
-            .get(`http://ec2-3-12-199-144.us-east-2.compute.amazonaws.com:5000/items/findAll?page=${state.pageNum}&limit=${state.limit}${payload.categoryCode ? '&category=' + payload.categoryCode : ''}`)
+            // .get(`http://ec2-3-12-199-144.us-east-2.compute.amazonaws.com:5000/items/findAll?page=${state.pageNum}&limit=${state.limit}${payload.categoryCode ? '&category=' + payload.categoryCode : ''}`)
             // .get(`http://172.21.13.235:5000/items/findAll?page=${state.pageNum}&limit=${state.limit}${payload.categoryCode ? '&category=' + payload.categoryCode : ''}`)
+            .get(`http://localhost:5000/items/findAll?page=${state.pageNum}&limit=${state.limit}${payload.categoryCode ? '&category=' + payload.categoryCode : ''}`)
             .then(res => {
-              commit('setCount', res.data.length);
-              if(res.data.length > 0) commit('appendItem', res.data);
+              commit('setCount', res.data.rows.length);
+              if(res.data.rows.length > 0) {
+                if (state.isCardView) commit('appendItems', res.data.rows);
+                else commit('setItems', res.data.rows);
+                commit('setTotal', res.data.count);
+              }
+              commit('disableLoading');
             });
   },
   async search({ commit, state }, payload) {
     if (state.count < state.limit) return;
+    commit('enableLoading');
     await axios
-            .get(`http://ec2-3-12-199-144.us-east-2.compute.amazonaws.com:5000/items/find?page=${state.pageNum}&limit=${state.limit}${payload.categoryCode ? '&category=' + payload.categoryCode : ''}${payload.searchTxt ? '&search=' + payload.searchTxt : ''}`)
+            // .get(`http://ec2-3-12-199-144.us-east-2.compute.amazonaws.com:5000/items/find?page=${state.pageNum}&limit=${state.limit}${payload.categoryCode ? '&category=' + payload.categoryCode : ''}${payload.searchTxt ? '&search=' + payload.searchTxt : ''}`)
             // .get(`http://172.21.13.235:5000/items/find?page=${state.pageNum}&limit=${state.limit}${payload.categoryCode ? '&category=' + payload.categoryCode : ''}${payload.searchTxt ? '&search=' + payload.searchTxt : ''}`)
+            .get(`http://localhost:5000/items/find?page=${state.pageNum}&limit=${state.limit}${payload.categoryCode ? '&category=' + payload.categoryCode : ''}${payload.searchTxt ? '&search=' + payload.searchTxt : ''}`)
             .then(res => {
-              commit('setCount', res.data.length);
-              if (res.data.length > 0) commit('appendItem', res.data);
+              commit('setCount', res.data.rows.length);
+              if (res.data.rows.length > 0) {
+                if (state.isCardView) commit('appendItems', res.data.rows);
+                else commit('setItems', res.data.rows);
+                commit('setTotal', res.data.count);
+              }
+              commit('disableLoading');
             })
   },
-  async nextPage({ dispatch, commit }, payload) {
-    commit('incrementPageNum');
+  async searchItems({ dispatch }, payload) {
     if (payload.searchTxt) dispatch('search', payload);
     else dispatch('findAll', payload);
-  },
+  }
 }
 
 // mutations
 const mutations = {
+  setPageNum(state, payload) {
+    state.pageNum = payload;
+  },
   incrementPageNum(state) {
     state.pageNum += 1;
   },
@@ -54,6 +88,12 @@ const mutations = {
   },
   resetPageNum(state) {
     state.pageNum = 0;
+  },
+  setItems(state, payload) {
+    state.items = payload;
+  },
+  appendItems(state, payload) {
+    state.items.push(...payload);
   },
   resetItems(state) {
     state.items = [];
@@ -64,9 +104,18 @@ const mutations = {
   resetCount(state) {
     state.count = state.limit;
   },
-  appendItem(state, payload) {
-    state.items.push(...payload);
+  enableLoading(state) {
+    state.loading = true;
   },
+  disableLoading(state) {
+    state.loading = false;
+  },
+  setTotal(state, payload) {
+    state.total = payload;
+  },
+  toggleIsCardView(state) {
+    state.isCardView = !state.isCardView;
+  }
 }
 
 export default {

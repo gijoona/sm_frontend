@@ -12,7 +12,7 @@
 </template>
 <script>
 import Category from '@/components/Category.vue'
-import Items from '@/components/Items.vue'
+import Items from '@/components/items/Items.vue'
 
 export default {
   name: 'Prices',
