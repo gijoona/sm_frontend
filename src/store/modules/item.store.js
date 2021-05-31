@@ -3,9 +3,9 @@ import axios from 'axios'
 // initial state
 const state = () => ({
   items: [],
-  limit: 30,
+  limit: 15,
   pageNum: 0,
-  count: 30,
+  count: 15,
   total: 0,
   loading: false,
   isCardView: false
@@ -36,7 +36,6 @@ const getters = {
 // actions
 const actions = {
   async findAll({ commit, state }, payload) {
-    if (state.count < state.limit) return;
     commit('enableLoading');
     await axios
             // .get(`http://ec2-3-12-199-144.us-east-2.compute.amazonaws.com:5000/items/findAll?page=${state.pageNum}&limit=${state.limit}${payload.categoryCode ? '&category=' + payload.categoryCode : ''}`)
@@ -53,7 +52,6 @@ const actions = {
             });
   },
   async search({ commit, state }, payload) {
-    if (state.count < state.limit) return;
     commit('enableLoading');
     await axios
             // .get(`http://ec2-3-12-199-144.us-east-2.compute.amazonaws.com:5000/items/find?page=${state.pageNum}&limit=${state.limit}${payload.categoryCode ? '&category=' + payload.categoryCode : ''}${payload.searchTxt ? '&search=' + payload.searchTxt : ''}`)

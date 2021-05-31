@@ -11,6 +11,7 @@
         :loading="loading"
         class="elevation-1"
         @update:page="updatePage"
+        disable-sort
       >
       </v-data-table>
     </v-col>
@@ -47,7 +48,7 @@ export default {
   methods: {
     updatePage(pageNum) {
       // TODO :: 0001로 조회 시 paging에 문제가 있음. 2페이지로 갔다가 1페이지로 돌아오는게 안됨.
-      this.$store.commit('item/setPageNum', (pageNum - 1));
+      this.$store.commit('item/setPageNum', pageNum - 1);
       this.$emit("changePage");
     }
   }
