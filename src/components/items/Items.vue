@@ -61,7 +61,7 @@
       <CardContents :items="items" @scrollEnd="loadItems" />
     </section>
     <section v-else>
-      <TableContents :items="items" @changePage="loadItems" />
+      <TableContents :items="items" @changePage="loadItems"  @addCart="addCart"/>
     </section>
     
   </div>
@@ -115,8 +115,8 @@ export default {
       this.$store.dispatch('item/searchItems', { categoryCode: this.categoryCode, searchTxt: this.searchTxt });
       setInterval(() => { if (this.$store.getters["item/loading"]) this.$store.commit('item/disableLoading') }, 5000)
     },
-    addCart() {
-      alert('added Cart')
+    addCart(item) {
+      console.log('added Cart', item);
     },
     initPage() {
       this.searchTxt = '';

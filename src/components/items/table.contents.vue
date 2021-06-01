@@ -13,6 +13,12 @@
         @update:page="updatePage"
         disable-sort
       >
+        <template v-slot:item.actions="{ item }">
+          <v-icon 
+            small
+            @click="addCart(item)"
+          >mdi-cart</v-icon>
+        </template>
       </v-data-table>
     </v-col>
   </v-row>
@@ -28,6 +34,7 @@ export default {
         { text: 'DESCRIPTION', value: 'description' },
         { text: 'UNIT', value: 'unit' },
         { text: 'PRICE', value: 'buyPrice' },
+        { text: 'ACTIONS', value: 'actions', sortable: false}
       ]
     }
   },
@@ -47,9 +54,11 @@ export default {
   },
   methods: {
     updatePage(pageNum) {
-      // TODO :: 0001로 조회 시 paging에 문제가 있음. 2페이지로 갔다가 1페이지로 돌아오는게 안됨.
       this.$store.commit('item/setPageNum', pageNum - 1);
-      this.$emit("changePage");
+      this.$emit('changePage');
+    },
+    addCart(item) {
+      this.$emit('addCart', item);
     }
   }
 }
