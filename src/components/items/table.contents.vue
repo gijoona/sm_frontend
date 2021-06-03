@@ -13,11 +13,43 @@
         @update:page="updatePage"
         disable-sort
       >
+        <template v-slot:item.pig="{ item }">
+          <v-avatar
+            tile
+            size="72px"
+            class="mt-2 mb-2"
+          >
+            <img
+              src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+              :alt="item.pig"
+            >
+          </v-avatar>
+        </template>
+        <template v-slot:item.contents="{ item }">
+          <v-card
+            color="transparent"
+            class="elevation-0"
+          >
+            <v-card-text
+              class="pt-1 pb-0 pl-1"
+            >
+              [{{ item.code }}]
+            </v-card-text>
+            <v-card-title
+              class="pt-0 pl-1"
+            >{{ item.nameKor }}</v-card-title>
+            <v-card-subtitle
+              class="pb-0 pl-1"
+            >
+              UNIT : {{ item.unit }} /
+              PRICE : {{ item.buyPrice }}
+            </v-card-subtitle>
+          </v-card>
+        </template>
         <template v-slot:item.actions="{ item }">
           <v-icon 
-            small
             @click="addCart(item)"
-          >mdi-cart</v-icon>
+          >mdi-cart-plus</v-icon>
         </template>
       </v-data-table>
     </v-col>
@@ -30,11 +62,9 @@ export default {
   data() {
     return {
       headers: [
-        { text: 'CODE', value: 'code' },
-        { text: 'DESCRIPTION', value: 'description' },
-        { text: 'UNIT', value: 'unit' },
-        { text: 'PRICE', value: 'buyPrice' },
-        { text: 'ACTIONS', value: 'actions', sortable: false}
+        { text: 'IMG', value: 'pig', width:'5%',  divider: true },
+        { text: 'CONTENTS', value: 'contents', width: '85%', divider: true },
+        { text: 'CART', value: 'actions', sortable: false}
       ]
     }
   },
