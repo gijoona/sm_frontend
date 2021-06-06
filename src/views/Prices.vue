@@ -1,10 +1,10 @@
 <template>
   <div class="items">
     <v-row>
-      <v-col cols="12" xs="12" sm="4" md="2">
+      <v-col cols="12" xs="12" sm="4" md="3" lg="2">
         <Category />
       </v-col>
-      <v-col cols="12" xs="12" sm="8" md="10">
+      <v-col cols="12" xs="12" sm="8" md="9" lg="10">
         <Items />
       </v-col>
     </v-row>

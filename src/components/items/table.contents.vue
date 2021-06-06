@@ -11,8 +11,15 @@
         :loading="loading"
         class="elevation-1"
         @update:page="updatePage"
+        hide-default-header
         disable-sort
       >
+        <template v-slot:header="{ isMobile, props: { headers } }">
+          <v-data-table-header
+            v-if="!isMobile"
+            :headers="headers"
+          ></v-data-table-header>
+        </template>
         <template v-slot:item.pig="{ item }">
           <v-avatar
             tile
@@ -30,14 +37,15 @@
             color="transparent"
             class="elevation-0"
           >
-            <v-card-text
+            <v-card-subtitle
               class="pt-1 pb-0 pl-1"
             >
               [{{ item.code }}]
-            </v-card-text>
+            </v-card-subtitle>
             <v-card-title
               class="pt-0 pl-1"
-            >{{ item.nameKor }}</v-card-title>
+            >{{ item.nameKor }}
+            </v-card-title>
             <v-card-subtitle
               class="pb-0 pl-1"
             >
@@ -62,9 +70,9 @@ export default {
   data() {
     return {
       headers: [
-        { text: 'IMG', value: 'pig', width:'5%',  divider: true },
-        { text: 'CONTENTS', value: 'contents', width: '85%', divider: true },
-        { text: 'CART', value: 'actions', sortable: false}
+        { text: 'THUMBNAIL', value: 'pig', width:'5%',  divider: true, sortable: false },
+        { text: 'CONTENTS', value: 'contents', width: '85%', sortable: false },
+        { value: 'actions', sortable: false }
       ]
     }
   },

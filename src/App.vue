@@ -41,11 +41,51 @@
       </v-list>
     </v-navigation-drawer>
 
+    <v-system-bar
+      app
+      window
+      color="#FAFAF0"
+    >
+      <v-spacer></v-spacer>
+      <span v-if="!isLogin">
+        <span
+          class="mr-4 text-overline font-weight-black"
+        >
+          SPACE-MARINE에 오신 걸 환영합니다.
+        </span>
+        <v-btn
+          icon
+          @click="movePage('login')"
+        >
+          <v-icon>mdi-login</v-icon>
+        </v-btn>
+      </span>
+      <span v-else>
+        <span
+          class="mr-4 text-overline font-weight-black"
+        >
+          안녕하세요. {{ userinfo.name }} 님
+        </span>
+        <v-btn
+          icon
+        >
+          <v-icon>mdi-cart</v-icon>
+        </v-btn>
+        <v-btn
+          icon
+          @click="logout"
+        >
+          <v-icon>mdi-logout</v-icon>
+        </v-btn>
+      </span>
+    </v-system-bar>
+
     <v-app-bar
       app
       flat
       :prominent="prominent"
       :color="bg_color"
+      height="40"
     >
       <div class="d-flex align-center">
         <v-img
@@ -102,7 +142,10 @@
     <v-main>
 
       <!-- Provides the application the proper gutter -->
-      <v-container fluid>
+      <v-container 
+        fluid
+        style="height: 100%;"
+      >
 
         <!-- If using vue-router -->
         <router-view></router-view>
@@ -151,9 +194,14 @@ export default {
     number: 0,
     duration: 500,
     offset: 0,
-    easing: 'easeInOutCubic',
+    easing: 'easeInOutCubic'
   }),
 
+  watch: {
+    isLogin(val) {
+      if (val) this.$router.push('/');
+    }
+  },
   computed: {
     target() {
       return Number(this[this.type])
@@ -164,6 +212,20 @@ export default {
         offset: this.offset,
         easing: this.easing
       }
+    },
+    isLogin() {
+      return this.$store.getters['user/isLogin'];
+    },
+    userinfo() {
+      return this.$store.getters['user/userinfo'];
+    }
+  },
+  methods: {
+    movePage(page) {
+      this.$router.push(page);
+    },
+    logout() {
+      this.$store.dispatch('user/logout');
     }
   }
 };
