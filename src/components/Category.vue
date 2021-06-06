@@ -58,7 +58,7 @@ export default {
     findAll() {
       return this.$http
                     .get('http://ec2-3-12-199-144.us-east-2.compute.amazonaws.com:5000/category/findAll')
-                    // .get('http://172.21.13.235:5000/category/findAll')
+                    // .get('http://localhost:5000/category/findAll')
                     .then(res => {
                       if (res.data.length > 0) this.categorys = res.data
                     })
