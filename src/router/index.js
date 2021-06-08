@@ -6,6 +6,8 @@ import Account from '../views/Account.vue'
 import Login from '../views/Login.vue'
 import Logout from '../views/Logout.vue'
 
+import store from './../store'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -22,7 +24,8 @@ const routes = [
   {
     path: '/account',
     name: 'Account',
-    component: Account
+    component: Account,
+    meta: { requiresAuth: true }
   },
   {
     path: '/login',
@@ -40,6 +43,21 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!store.getters['user/isLogin']) {
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      })
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
 })
 
 export default router

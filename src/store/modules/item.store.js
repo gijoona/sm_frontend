@@ -1,4 +1,4 @@
-import axios from 'axios'
+import instance from './../../plugins/axios'
 
 // initial state
 const state = () => ({
@@ -37,9 +37,8 @@ const getters = {
 const actions = {
   async findAll({ commit, state }, payload) {
     commit('enableLoading');
-    await axios
-            .get(`http://ec2-3-12-199-144.us-east-2.compute.amazonaws.com:5000/items/findAll?page=${state.pageNum}&limit=${state.limit}${payload.categoryCode ? '&category=' + payload.categoryCode : ''}`)
-            // .get(`http://localhost:5000/items/findAll?page=${state.pageNum}&limit=${state.limit}${payload.categoryCode ? '&category=' + payload.categoryCode : ''}`)
+    await instance
+            .get(`/items/findAll?page=${state.pageNum}&limit=${state.limit}${payload.categoryCode ? '&category=' + payload.categoryCode : ''}`)
             .then(res => {
               commit('setCount', res.data.rows.length);
               if(res.data.rows.length > 0) {
@@ -52,9 +51,8 @@ const actions = {
   },
   async search({ commit, state }, payload) {
     commit('enableLoading');
-    await axios
-            .get(`http://ec2-3-12-199-144.us-east-2.compute.amazonaws.com:5000/items/find?page=${state.pageNum}&limit=${state.limit}${payload.categoryCode ? '&category=' + payload.categoryCode : ''}${payload.searchTxt ? '&search=' + payload.searchTxt : ''}`)
-            // .get(`http://localhost:5000/items/find?page=${state.pageNum}&limit=${state.limit}${payload.categoryCode ? '&category=' + payload.categoryCode : ''}${payload.searchTxt ? '&search=' + payload.searchTxt : ''}`)
+    await instance
+            .get(`/items/find?page=${state.pageNum}&limit=${state.limit}${payload.categoryCode ? '&category=' + payload.categoryCode : ''}${payload.searchTxt ? '&search=' + payload.searchTxt : ''}`)
             .then(res => {
               commit('setCount', res.data.rows.length);
               if (res.data.rows.length > 0) {
@@ -111,6 +109,11 @@ const mutations = {
   },
   toggleIsCardView(state) {
     state.isCardView = !state.isCardView;
+  },
+  resetPagination(state) {
+    state.count = state.limit;
+    state.pageNum = 0;
+    state.items = [];
   }
 }
 

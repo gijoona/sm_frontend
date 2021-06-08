@@ -26,7 +26,6 @@
                   class="mx-3"
                 >
                   <v-icon v-if="active">mdi-chevron-right</v-icon>
-                  <!-- <v-icon v-else>mdi-circle</v-icon> -->
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title v-text="`${category.code}. ${category.nameKor}`"></v-list-item-title>
@@ -50,18 +49,17 @@ export default {
   data() {
     return {
       selectedItem: 0,
-      category: '',
-      categorys: []
+      category: ''
+    }
+  },
+  computed:{
+    categorys() {
+      return this.$store.getters['category/categorys'];
     }
   },
   methods: {
     findAll() {
-      return this.$http
-                    .get('http://ec2-3-12-199-144.us-east-2.compute.amazonaws.com:5000/category/findAll')
-                    // .get('http://localhost:5000/category/findAll')
-                    .then(res => {
-                      if (res.data.length > 0) this.categorys = res.data
-                    })
+      this.$store.dispatch('category/findAll');
     },
     selectedCategory(category) {
       this.$store.commit("category/setCategoryCode", category.code);

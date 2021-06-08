@@ -12,7 +12,7 @@
 </template>
 <script>
 import Category from '@/components/Category.vue'
-import Items from '@/components/items/Items.vue'
+import Items from '@/components/items/Items.template.vue'
 
 export default {
   name: 'Prices',
@@ -23,5 +23,6 @@ export default {
     Category,
     Items
   }
+  // TODO :: Itmes View 변경 버튼
 }
 </script>

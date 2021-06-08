@@ -36,7 +36,7 @@
               class="text-h6 font-weight-black"
             >
               <v-icon>mdi-chevron-right</v-icon>
-              <v-label>{{ this.$store.state.category.name }}</v-label>
+              <label>{{ categoryName }}</label>
             </v-btn>
           </v-col>
           <v-col class="ml-auto" sm="12" md="5" lg="3">
@@ -67,8 +67,8 @@
   </div>
 </template>
 <script>
-import CardContents from '@/components/items/card.contents'
-import TableContents from '@/components/items/table.contents'
+import CardContents from '@/components/items/contents/Card'
+import TableContents from '@/components/items/contents/Table'
 
 export default {
   components: {
@@ -88,8 +88,11 @@ export default {
     }
   },
   computed: {
+    categoryName() {
+      return this.$store.getters['category/name'];
+    },
     categoryCode() {
-      return this.$store.state.category.code;
+      return this.$store.getters['category/code'];
     },
     items() {
       return this.$store.getters['item/items'];
@@ -106,9 +109,7 @@ export default {
       this.$store.dispatch('item/findAll', { categoryCode: this.categoryCode });
     },
     search() {
-      this.$store.commit('item/resetCount');
-      this.$store.commit('item/resetPageNum');
-      this.$store.commit('item/resetItems');
+      this.$store.commit('item/resetPagination');
       this.$store.dispatch('item/search', { categoryCode: this.categoryCode, searchTxt: this.searchTxt });
     },
     loadItems() {
@@ -120,9 +121,7 @@ export default {
     },
     initPage() {
       this.searchTxt = '';
-      this.$store.commit('item/resetCount');
-      this.$store.commit('item/resetPageNum');
-      this.$store.commit('item/resetItems');
+      this.$store.commit('item/resetPagination');
       this.findAll();
     },
     viewChange() {

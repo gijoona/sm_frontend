@@ -1,4 +1,4 @@
-import axios from 'axios';
+import instance from './../../plugins/axios'
 
 // initial state
 const state = () => ({
@@ -27,9 +27,8 @@ const getters = {
 // actions
 const actions = {
   async login({ commit, state }) {
-    await axios
-            .post('http://ec2-3-12-199-144.us-east-2.compute.amazonaws.com:5000/auth/login', { username: state.username, password: state.password })
-            // .post('http://localhost:5000/auth/login', { username: state.username, password: state.password })
+    await instance
+            .post('/auth/login', { username: state.username, password: state.password })
             .then(res => {
               commit('loginSuccess', res.data.user);
               sessionStorage.setItem('userinfo', res.data.user);

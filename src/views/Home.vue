@@ -68,11 +68,20 @@
         <v-col sm="10" md="3" lg="3" cols="10">
           <v-card
             light
-            color="white"
-            min-height="230"
+            :color="contactOps.color"
+            :min-height="contactOps.minHeight"
           >
-            <v-card-title>E-MAIL</v-card-title>
-            <v-card-text>
+            <v-card-title>
+              <v-icon 
+                size="48"
+                color="primary"
+                class="mx-auto"
+              >fa-at</v-icon>
+            </v-card-title>
+
+            <v-card-text
+              style="min-height: 100px;"
+            >
               <div>
                 <v-label>
                   <v-icon>mdi-email</v-icon>
@@ -86,9 +95,13 @@
                 </v-label>
               </div>
             </v-card-text>
+
+            <v-divider class="mx-4"></v-divider>
+
             <v-card-actions>
               <v-btn
                 block
+                color="primary"
               >
                 Send Email
               </v-btn>
@@ -98,26 +111,55 @@
         <v-col sm="10" md="3" lg="3" cols="10">
           <v-card
             light
-            color="white"
-            min-height="230"
+            :color="contactOps.color"
+            :min-height="contactOps.minHeight"
           >
-            <v-card-title>LOCATION</v-card-title>
-            <v-card-text>
+            <v-card-title>
+              <v-icon 
+                size="48"
+                color="primary"
+                class="mx-auto"
+              >fa-route</v-icon>
+            </v-card-title>
+
+            <v-card-text
+              style="min-height: 100px;"
+            >
               <v-label>
                 <v-icon>fa-map</v-icon>
                 부산광역시 서구 구덕로 134번길 34-2
               </v-label>
             </v-card-text>
+
+            <v-divider class="mx-4"></v-divider>
+
+            <v-card-actions>
+              <v-btn
+                block
+                color="primary"
+              >
+                Location
+              </v-btn>
+            </v-card-actions>
           </v-card>
         </v-col>
         <v-col sm="10" md="3" lg="3" cols="10">
           <v-card
             light
-            color="white"
-            min-height="230"
+            :color="contactOps.color"
+            :min-height="contactOps.minHeight"
           >
-            <v-card-title>REQUEST A CALL</v-card-title>
-            <v-card-text>
+            <v-card-title>
+              <v-icon 
+                size="48"
+                color="primary"
+                class="mx-auto"
+              >fa-phone-square-alt</v-icon>
+            </v-card-title>
+            
+            <v-card-text
+              style="min-height: 100px;"
+            >
               <div>
                 <v-label>
                   <v-icon>mdi-phone</v-icon> 
@@ -137,9 +179,13 @@
                 </v-label>
               </div>
             </v-card-text>
+
+            <v-divider class="mx-4"></v-divider>
+
             <v-card-actions>
               <v-btn
                 block
+                color="primary"
               >
                 Call
               </v-btn>
@@ -181,6 +227,10 @@ export default {
         height: 500,
         loading: 'lazy'
       },
+      contactOps: {
+        color: 'white',
+        minHeight: 200
+      }
     }
   },
   computed: {

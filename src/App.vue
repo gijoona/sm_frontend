@@ -118,6 +118,7 @@
           <v-tabs
             align-with-title
             :background-color="bg_color"
+            height="35"
           >
             <v-tab to="/">
               Home
