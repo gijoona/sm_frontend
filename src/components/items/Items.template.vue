@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <v-dialog
       v-model="loading"
       hide-overlay
@@ -39,7 +38,7 @@
               <label>{{ categoryName }}</label>
             </v-btn>
           </v-col>
-          <v-col class="ml-auto" sm="12" md="5" lg="3">
+          <v-col class="ml-auto" sm="7" md="5" lg="3">
             <v-text-field
               v-model="searchTxt"
               label="Search"
@@ -63,17 +62,19 @@
     <section v-else>
       <TableContents :items="items" @changePage="loadItems"  @addCart="addCart"/>
     </section>
-    
+    <DetailPop />
   </div>
 </template>
 <script>
 import CardContents from '@/components/items/contents/Card'
 import TableContents from '@/components/items/contents/Table'
+import DetailPop from '@/components/items/contents/Detail-pop.vue'
 
 export default {
   components: {
     CardContents,
-    TableContents
+    TableContents,
+    DetailPop
   },
   name: 'Items',
   data() {

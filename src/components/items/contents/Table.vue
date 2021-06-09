@@ -10,9 +10,10 @@
         :server-items-length="total"
         :loading="loading"
         class="elevation-1"
-        @update:page="updatePage"
         hide-default-header
         disable-sort
+        @update:page="updatePage"
+        @click:row="showDetail"
       >
         <template v-slot:header="{ isMobile, props: { headers } }">
           <v-data-table-header
@@ -56,7 +57,7 @@
         </template>
         <template v-slot:item.actions="{ item }">
           <v-icon 
-            @click="addCart(item)"
+            @click.stop="addCart(item)"
           >mdi-cart-plus</v-icon>
         </template>
       </v-data-table>
@@ -73,7 +74,9 @@ export default {
         { text: 'THUMBNAIL', value: 'pig', width:'5%',  divider: true, sortable: false },
         { text: 'CONTENTS', value: 'contents', width: '85%', sortable: false },
         { value: 'actions', sortable: false }
-      ]
+      ],
+      dialog: false,
+      selecteditem: {}
     }
   },
   computed: {
@@ -97,6 +100,9 @@ export default {
     },
     addCart(item) {
       this.$emit('addCart', item);
+    },
+    showDetail(item) {
+      this.$store.commit('item/visibleDetail', item);
     }
   }
 }

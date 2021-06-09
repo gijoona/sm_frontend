@@ -8,7 +8,9 @@ const state = () => ({
   count: 15,
   total: 0,
   loading: false,
-  isCardView: false
+  isCardView: false,
+  isShowDialog: false,
+  selectedItem: {}
 })
 
 // getters
@@ -30,6 +32,12 @@ const getters = {
   },
   isCardView(state) {
     return state.isCardView;
+  },
+  isShowDialog(state) {
+    return state.isShowDialog;
+  },
+  selectedItem(state) {
+    return state.selectedItem;
   }
 }
 
@@ -117,6 +125,14 @@ const mutations = {
     state.count = state.limit;
     state.pageNum = 0;
     state.items = [];
+  },
+  visibleDetail(state, payload) {
+    state.isShowDialog = true;
+    state.selectedItem = payload;
+  },
+  hideDetail(state) {
+    state.isShowDialog = false;
+    state.selectedItem = {};
   }
 }
 

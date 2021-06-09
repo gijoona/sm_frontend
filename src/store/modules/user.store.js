@@ -31,7 +31,6 @@ const actions = {
             .post('/auth/login', { username: state.username, password: state.password })
             .then(res => {
               commit('loginSuccess', res.data.user);
-              sessionStorage.setItem('userinfo', res.data.user);
               sessionStorage.setItem('access_token', res.data.access_token);
             })
             .catch(err => {

@@ -4,8 +4,14 @@
       <v-col cols="12" xs="12" sm="4" md="3" lg="2">
         <Category />
       </v-col>
-      <v-col cols="12" xs="12" sm="8" md="9" lg="10">
+      <v-col cols="12" xs="12" sm="8" md="7" lg="8">
         <Items />
+      </v-col>
+      <v-col md="2" lg="2">
+        <v-card
+          color="grey"
+          height="800"
+        ></v-card>
       </v-col>
     </v-row>
   </div>
