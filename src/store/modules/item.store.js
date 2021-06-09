@@ -110,6 +110,9 @@ const mutations = {
   toggleIsCardView(state) {
     state.isCardView = !state.isCardView;
   },
+  setIsCardView(state, payload) {
+    state.isCardView = payload;
+  },
   resetPagination(state) {
     state.count = state.limit;
     state.pageNum = 0;

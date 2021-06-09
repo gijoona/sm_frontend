@@ -126,9 +126,20 @@ export default {
     },
     viewChange() {
       this.$store.commit('item/toggleIsCardView');
-    }
+    },
+    onResize () {
+      this.$store.commit('item/setIsCardView', window.innerWidth < 600);
+    },
+  },
+  beforeDestroy () {
+    if (typeof window === 'undefined') return
+
+    window.removeEventListener('resize', this.onResize, { passive: true })
   },
   mounted() {
+    this.onResize()
+    window.addEventListener('resize', this.onResize, { passive: true })
+   
     this.initPage();
   }
 }
