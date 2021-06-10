@@ -10,10 +10,16 @@
         min-height="460"
         @click="showDetail(item)"
       >
-        <v-img 
+        <v-img v-if="item.pig"
           height="250"
-          src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+          :src="thumbnail(item)"
         ></v-img>
+        <v-img v-else
+          contain
+          height="250"
+          src="@/assets/photo_1280.png"
+        ></v-img>
+
         <v-card-title>{{ item.nameKor }}</v-card-title>
 
         <v-divider class="mx-4"></v-divider>
@@ -72,6 +78,9 @@ export default {
     },
     showDetail(item) {
       this.$store.commit('item/visibleDetail', item);
+    },
+    thumbnail(item) {
+      return item.pig && require('@/assets/images' + item.pig)
     }
   }
 }

@@ -7,9 +7,15 @@
       color="#FAFAF0"
     >
 
-      <v-img 
-        max-height="500"
-        src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+      <v-img v-if="item.pig"
+        contain
+        max-height="400"
+        :src="thumbnail(item)"
+      ></v-img>
+      <v-img v-else
+        contain
+        max-height="400"
+        src="@/assets/photo_1280.png"
       ></v-img>
 
       <v-card-text>
@@ -99,6 +105,9 @@ export default {
     },
     onClose() {
       this.$store.commit('item/hideDetail');
+    },
+    thumbnail(item) {
+      return item.pig && require('@/assets/images' + item.pig)
     }
   }
 }

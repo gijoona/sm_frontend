@@ -216,10 +216,10 @@ export default {
   data: () => {
     return {
       slides: [
-        { name: 'slide1', src: require('../assets/main_slider_1.jpg')},
-        { name: 'slide2', src: require('../assets/main_slider_2.jpg')},
-        { name: 'slide3', src: require('../assets/main_slider_3.jpg')},
-        { name: 'slide4', src: require('../assets/main_slider_4.jpg')},
+        { name: 'slide1', src: require('@/assets/main_slider_1.jpg')},
+        { name: 'slide2', src: require('@/assets/main_slider_2.jpg')},
+        { name: 'slide3', src: require('@/assets/main_slider_3.jpg')},
+        { name: 'slide4', src: require('@/assets/main_slider_4.jpg')},
       ],
       googleMap: {
         src: 'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3264.327125751126!2d129.0199668!3d35.0985416!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3568e9a47ab996db%3A0x6b2b363cb16b63c0!2z67aA7IKw6rSR7Jet7IucIOyEnOq1rCDthqDshLHrj5k16rCAIOq1rOuNleuhnDEzNOuyiOq4uCAzNC0y!5e0!3m2!1sko!2skr!4v1620890125650!5m2!1sko!2skr',

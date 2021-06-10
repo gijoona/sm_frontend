@@ -27,10 +27,12 @@
             size="72px"
             class="mt-2 mb-2"
           >
-            <img
-              src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-              :alt="item.pig"
+            <img v-if="item.pig"
+              :src="thumbnail(item)"
             >
+            <v-icon v-else
+              size="48"
+            >fa-camera</v-icon>
           </v-avatar>
         </template>
         <template v-slot:item.contents="{ item }">
@@ -91,7 +93,7 @@ export default {
     },
     loading() {
       return this.$store.getters['item/loading'];
-    }
+    },
   },
   methods: {
     updatePage(pageNum) {
@@ -103,6 +105,9 @@ export default {
     },
     showDetail(item) {
       this.$store.commit('item/visibleDetail', item);
+    },
+    thumbnail(item) {
+      return item.pig && require('@/assets/images' + item.pig)
     }
   }
 }

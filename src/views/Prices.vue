@@ -11,6 +11,7 @@
         <v-card
           color="grey"
           height="800"
+          class="hidden-sm-and-down"
         ></v-card>
       </v-col>
     </v-row>
