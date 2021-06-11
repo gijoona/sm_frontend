@@ -10,15 +10,10 @@
         min-height="460"
         @click="showDetail(item)"
       >
-        <v-img v-if="item.pig"
+        <ImageComponent
           height="250"
-          :src="thumbnail(item)"
-        ></v-img>
-        <v-img v-else
-          contain
-          height="250"
-          src="@/assets/photo_1280.png"
-        ></v-img>
+          :path="item.pig"
+        ></ImageComponent>
 
         <v-card-title>{{ item.nameKor }}</v-card-title>
 
@@ -46,6 +41,7 @@
 </template>
 <script>
 import Vue from 'vue'
+import ImageComponent from './Img-component.vue'
 
 // scroll directive
 Vue.directive('scroll', {
@@ -60,6 +56,9 @@ Vue.directive('scroll', {
 })
 
 export default {
+  components: {
+    ImageComponent
+  },
   props: ['items'],
   name: 'CardContents',
   data() {
@@ -78,9 +77,6 @@ export default {
     },
     showDetail(item) {
       this.$store.commit('item/visibleDetail', item);
-    },
-    thumbnail(item) {
-      return item.pig && require('@/assets/images' + item.pig)
     }
   }
 }

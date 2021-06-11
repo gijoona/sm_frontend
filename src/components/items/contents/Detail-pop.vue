@@ -7,16 +7,11 @@
       color="#FAFAF0"
     >
 
-      <v-img v-if="item.pig"
+      <ImageComponent
         contain
         max-height="400"
-        :src="thumbnail(item)"
-      ></v-img>
-      <v-img v-else
-        contain
-        max-height="400"
-        src="@/assets/photo_1280.png"
-      ></v-img>
+        :path="item.pig"
+      ></ImageComponent>
 
       <v-card-text>
         <v-subheader
@@ -79,7 +74,12 @@
   </v-dialog>
 </template>
 <script>
+import ImageComponent from './Img-component.vue'
+
 export default {
+  components: {
+    ImageComponent
+  },
   name: 'DetailPop',
   data() {
     return {
@@ -105,9 +105,6 @@ export default {
     },
     onClose() {
       this.$store.commit('item/hideDetail');
-    },
-    thumbnail(item) {
-      return item.pig && require('@/assets/images' + item.pig)
     }
   }
 }

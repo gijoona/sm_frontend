@@ -27,9 +27,9 @@
             size="72px"
             class="mt-2 mb-2"
           >
-            <img v-if="item.pig"
-              :src="thumbnail(item)"
-            >
+            <ImageComponent v-if="item.pig"
+              :path="item.pig"
+            />
             <v-icon v-else
               size="48"
             >fa-camera</v-icon>
@@ -67,7 +67,12 @@
   </v-row>
 </template>
 <script>
+import ImageComponent from './Img-component.vue'
+
 export default {
+  components: {
+    ImageComponent
+  },
   props: ['items'],
   name: 'TableContents',
   data() {
@@ -105,9 +110,6 @@ export default {
     },
     showDetail(item) {
       this.$store.commit('item/visibleDetail', item);
-    },
-    thumbnail(item) {
-      return item.pig && require('@/assets/images' + item.pig)
     }
   }
 }
