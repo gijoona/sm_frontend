@@ -5,6 +5,7 @@ import Prices from '../views/Prices.vue'
 import Account from '../views/Account.vue'
 import Login from '../views/Login.vue'
 import Logout from '../views/Logout.vue'
+import Cart from '../views/Cart.vue'
 
 import store from './../store'
 
@@ -25,6 +26,12 @@ const routes = [
     path: '/account',
     name: 'Account',
     component: Account,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/cart',
+    name: 'Cart',
+    component: Cart,
     meta: { requiresAuth: true }
   },
   {

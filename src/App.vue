@@ -68,6 +68,8 @@
         </span>
         <v-btn
           icon
+          link
+          to="/cart"
         >
           <v-icon>mdi-cart</v-icon>
         </v-btn>
