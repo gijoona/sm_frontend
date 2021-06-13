@@ -59,7 +59,7 @@
         </template>
         <template v-slot:item.actions="{ item }">
           <v-icon 
-            @click.stop="addCart(item)"
+            @click.stop="onAdd(item)"
           >mdi-cart-plus</v-icon>
         </template>
       </v-data-table>
@@ -67,7 +67,7 @@
   </v-row>
 </template>
 <script>
-import ImageComponent from './Img-component.vue'
+import ImageComponent from '../../comm/Img-component.vue'
 
 export default {
   components: {
@@ -105,8 +105,8 @@ export default {
       this.$store.commit('item/setPageNum', pageNum - 1);
       this.$emit('changePage');
     },
-    addCart(item) {
-      this.$emit('addCart', item);
+    onAdd(item) {
+      this.$emit('onAdd', item);
     },
     showDetail(item) {
       this.$store.commit('item/visibleDetail', item);

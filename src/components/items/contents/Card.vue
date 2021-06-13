@@ -30,7 +30,7 @@
           <v-btn
             block
             color="indigo"
-            @click.stop="addCart"
+            @click.stop="onAdd(item)"
           >
             Add Cart
           </v-btn>
@@ -41,7 +41,7 @@
 </template>
 <script>
 import Vue from 'vue'
-import ImageComponent from './Img-component.vue'
+import ImageComponent from '../../comm/Img-component.vue'
 
 // scroll directive
 Vue.directive('scroll', {
@@ -77,7 +77,10 @@ export default {
     },
     showDetail(item) {
       this.$store.commit('item/visibleDetail', item);
-    }
+    },
+    onAdd(item) {
+      this.$emit('onAdd', item);
+    },
   }
 }
 </script>

@@ -57,12 +57,12 @@
     </v-card>
 
     <section v-if="isCardView">
-      <CardContents :items="items" @scrollEnd="loadItems" />
+      <CardContents :items="items" @scrollEnd="loadItems" @onAdd="addCart"/>
     </section>
     <section v-else>
-      <TableContents :items="items" @changePage="loadItems"  @addCart="addCart"/>
+      <TableContents :items="items" @changePage="loadItems"  @onAdd="addCart"/>
     </section>
-    <DetailPop />
+    <DetailPop @onAdd="addCart"/>
   </div>
 </template>
 <script>
@@ -103,6 +103,9 @@ export default {
     },
     isCardView() {
       return this.$store.getters['item/isCardView'];
+    },
+    userinfo() {
+      return this.$store.getters['user/userinfo'];
     }
   },
   methods: {
@@ -118,7 +121,13 @@ export default {
       setInterval(() => { if (this.$store.getters["item/loading"]) this.$store.commit('item/disableLoading') }, 5000)
     },
     addCart(item) {
-      console.log('added Cart', item);
+      const cart = {
+        userCd: this.userinfo.code,
+        itemCd: item.code,
+        itemSeq: 1,
+        quantity: 1
+      }
+      this.$store.dispatch('cart/addCart', cart);
     },
     initPage() {
       this.searchTxt = '';

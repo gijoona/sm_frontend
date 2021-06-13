@@ -61,7 +61,7 @@
         <v-btn
           dark
           color="indigo"
-          @click.stop="addCart"
+          @click.stop="onAdd"
         >
           Add Cart
         </v-btn>
@@ -74,7 +74,7 @@
   </v-dialog>
 </template>
 <script>
-import ImageComponent from './Img-component.vue'
+import ImageComponent from './../../comm/Img-component.vue'
 
 export default {
   components: {
@@ -100,8 +100,8 @@ export default {
     }
   },
   methods: {
-    onAdd(item) {
-      this.$emit('addCart', item);
+    onAdd() {
+      this.$emit('onAdd', this.item);
     },
     onClose() {
       this.$store.commit('item/hideDetail');
