@@ -2,6 +2,8 @@
   <v-app
     style="background: #FAFAF0;"
   >
+    <MsgbarComponent />
+
     <v-navigation-drawer 
       app
       v-model="drawer"
@@ -186,7 +188,12 @@
 </template>
 
 <script>
+import MsgbarComponent from '@/components/comm/Msgbar-component.vue'
+
 export default {
+  components: {
+    MsgbarComponent
+  },
   name: 'App',
 
   data: () => ({

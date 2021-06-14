@@ -27,12 +27,9 @@
             size="72px"
             class="mt-2 mb-2"
           >
-            <ImageComponent v-if="item.pig"
+            <ImageComponent
               :path="item.pig"
             />
-            <v-icon v-else
-              size="48"
-            >fa-camera</v-icon>
           </v-avatar>
         </template>
         <template v-slot:item.contents="{ item }">

@@ -1,5 +1,6 @@
 <template>
   <v-img
+    v-bind="$attrs"
     :src="imgPath"
   ></v-img>
 </template>
@@ -12,8 +13,13 @@ export default {
   },
   computed: {
     imgPath() {
-      const image = this.path ? '/images' + this.path : '/photo_1280.png'
-      return image && require('@/assets' + image);
+      const noImage = '/photo_1280.png';
+      try {
+        const image = this.path ? '/images' + this.path : noImage
+        return image && require('@/assets' + image);
+      } catch (err) {
+        return require('@/assets' + noImage);
+      }
     }
   }
 }

@@ -11,6 +11,8 @@
         @click="showDetail(item)"
       >
         <ImageComponent
+          contain
+          min-width="250"
           height="250"
           :path="item.pig"
         ></ImageComponent>

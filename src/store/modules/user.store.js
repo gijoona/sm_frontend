@@ -26,18 +26,17 @@ const getters = {
 
 // actions
 const actions = {
-  async login({ commit, state }) {
+  async login({ dispatch, commit, state }) {
     await instance
             .post('/auth/login', { username: state.username, password: state.password })
             .then(res => {
               commit('loginSuccess', res.data.user);
               sessionStorage.setItem('access_token', res.data.access_token);
             })
-            .catch(err => {
-              console.error(err);
+            .catch(() => {
               commit('setUsername', '');
               commit('setPassword', '');
-              alert('로그인 정보를 확인해주세요.');
+              dispatch('msg/showErr', '로그인 정보를 확인해주세요.', { root: true });
             })
   },
   logout({commit}) {

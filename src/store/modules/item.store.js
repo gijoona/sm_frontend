@@ -43,10 +43,13 @@ const getters = {
 
 // actions
 const actions = {
-  async findAll({ commit, state }, payload) {
+  async findAll({ commit, state, rootGetters }) {
+    // 전역 store 이용. category의 code getter를 호출
+    const categoryCode = rootGetters['category/code'];
+
     commit('enableLoading');
     await instance
-            .get(`/items/findAll?page=${state.pageNum}&limit=${state.limit}${payload.categoryCode ? '&category=' + payload.categoryCode : ''}`)
+            .get(`/items/findAll?page=${state.pageNum}&limit=${state.limit}${categoryCode ? '&category=' + categoryCode : ''}`)
             .then(res => {
               commit('setCount', res.data.rows.length);
               if(res.data.rows.length > 0) {
@@ -57,10 +60,13 @@ const actions = {
               commit('disableLoading');
             });
   },
-  async search({ commit, state }, payload) {
+  async search({ commit, state, rootGetters }, payload) {
+    // 전역 store 이용. category의 code getter를 호출
+    const categoryCode = rootGetters['category/code'];
+
     commit('enableLoading');
     await instance
-            .get(`/items/find?page=${state.pageNum}&limit=${state.limit}${payload.categoryCode ? '&category=' + payload.categoryCode : ''}${payload.searchTxt ? '&search=' + payload.searchTxt : ''}`)
+            .get(`/items/find?page=${state.pageNum}&limit=${state.limit}${categoryCode ? '&category=' + categoryCode : ''}${payload.searchTxt ? '&search=' + payload.searchTxt : ''}`)
             .then(res => {
               commit('setCount', res.data.rows.length);
               if (res.data.rows.length > 0) {

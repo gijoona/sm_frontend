@@ -84,16 +84,13 @@ export default {
     }
   },
   watch:{
-    categoryCode() {
+    categoryName() {
       this.initPage();
     }
   },
   computed: {
     categoryName() {
       return this.$store.getters['category/name'];
-    },
-    categoryCode() {
-      return this.$store.getters['category/code'];
     },
     items() {
       return this.$store.getters['item/items'];
@@ -103,31 +100,22 @@ export default {
     },
     isCardView() {
       return this.$store.getters['item/isCardView'];
-    },
-    userinfo() {
-      return this.$store.getters['user/userinfo'];
     }
   },
   methods: {
     findAll() {
-      this.$store.dispatch('item/findAll', { categoryCode: this.categoryCode });
+      this.$store.dispatch('item/findAll');
     },
     search() {
       this.$store.commit('item/resetPagination');
-      this.$store.dispatch('item/search', { categoryCode: this.categoryCode, searchTxt: this.searchTxt });
+      this.$store.dispatch('item/search', { searchTxt: this.searchTxt });
     },
     loadItems() {
-      this.$store.dispatch('item/searchItems', { categoryCode: this.categoryCode, searchTxt: this.searchTxt });
+      this.$store.dispatch('item/searchItems', { searchTxt: this.searchTxt });
       setInterval(() => { if (this.$store.getters["item/loading"]) this.$store.commit('item/disableLoading') }, 5000)
     },
     addCart(item) {
-      const cart = {
-        userCd: this.userinfo.code,
-        itemCd: item.code,
-        itemSeq: 1,
-        quantity: 1
-      }
-      this.$store.dispatch('cart/addCart', cart);
+      this.$store.dispatch('cart/addCart', item);
     },
     initPage() {
       this.searchTxt = '';

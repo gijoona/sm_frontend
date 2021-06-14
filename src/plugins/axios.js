@@ -47,9 +47,9 @@ instance.interceptors.response.use(
     
     if (error.response.status === 401) {
       if (store.getters['user/isLogin']) {
-        alert('세션이 만료되었습니다.');
+        store.dispatch('showErr', '세션이 만료되었습니다.');
       } else {
-        alert('로그인이 필요합니다.');
+        store.dispatch('showErr', '로그인이 필요합니다.');
       }
     }
     return Promise.reject(error);
