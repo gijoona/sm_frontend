@@ -46,8 +46,7 @@
       </v-col>
     </v-row>
     <v-sheet
-      dark
-      color="grey darken-3"
+      color="grey lighten-2"
     >
       <v-row
         align="center"

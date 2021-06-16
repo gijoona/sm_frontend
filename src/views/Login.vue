@@ -12,7 +12,7 @@
       <v-col>
         <v-card
           class="elevation-6 mx-auto"
-          max-width="500"
+          max-width="250"
           min-height="250"
         >
           <v-toolbar
@@ -21,7 +21,9 @@
             dark
             color="indigo"
           >
-            <v-toolbar-title>Login</v-toolbar-title>
+            <v-toolbar-title
+              class="mx-auto font-weight-black"
+            >Login</v-toolbar-title>
           </v-toolbar>
           
           <v-card-text>

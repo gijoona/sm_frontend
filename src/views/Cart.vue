@@ -29,6 +29,8 @@
                 dense
                 solo
                 hide-details
+                deletable-chips
+                @mousedown="onCategoryClick"
               ></v-select>
             </v-col>
             <v-col
@@ -59,7 +61,6 @@
         <v-btn
           dark
           color="green darken-1"
-          class="mr-2"
           @click.stop="search"
         >
           <v-icon>fa-search</v-icon>
@@ -67,7 +68,7 @@
         <v-btn
           dark
           color="grey darken-1"
-          class="mr-2"
+          @click.stop="downloadExcelFile"
         >
           <v-icon>fa-print</v-icon>
         </v-btn>
@@ -154,6 +155,7 @@
   </v-container>
 </template>
 <script>
+import Xlsx from 'xlsx'
 import ImageComponent from '@/components/comm/Img-component.vue'
 
 export default {
@@ -178,7 +180,7 @@ export default {
       max7chars: v => v.length <= 7 || 'Input too long!',
       editedItem: {},
       searchTxt: '',
-      selectedCategorys: []
+      selectedCategorys: ['']
     }
   },
   watch: {
@@ -203,7 +205,7 @@ export default {
       return this.$store.getters['cart/loading'];
     },
     categorys() {
-      return this.$store.getters['category/categorys']
+      return [{ code: '', nameKor: 'ALL' }, ...(this.$store.getters['category/categorys'])];
     }
   },
   methods: {
@@ -227,6 +229,38 @@ export default {
     },
     onRemove(item) {
       this.$store.dispatch('cart/removeCart', item.id);
+    },
+    onCategoryClick(evt) {
+      const selectedChip = this.categorys.find(category => category.nameKor === evt.target.outerText);
+      if (selectedChip) {
+        this.$store.commit('cart/setPageNum', 0);
+        this.$store.dispatch('cart/searchCart', { categorys: [selectedChip.code], search: this.searchTxt })
+      }
+    },
+    downloadExcelFile () {
+      const workBook = Xlsx.utils.book_new()
+      const workSheet = Xlsx.utils.json_to_sheet(this.generateExcelData())
+      Xlsx.utils.book_append_sheet(workBook, workSheet, 'cart-list')
+
+      const timeElapsed = Date.now();
+      const today = new Date(timeElapsed);
+
+      Xlsx.writeFile(workBook, `space-marine_carts_${today.toLocaleDateString()}.xlsx`)
+    },
+    generateExcelData() {
+      const excelDatas = this.selected.map(data => {
+        const { code, nameKor, unit, buyPrice, marker } = data.item;
+        return {
+          code: code,
+          name: nameKor,
+          unit: unit,
+          price: buyPrice,
+          marker: marker,
+          quantity: data.quantity,
+          amount: buyPrice * data.quantity
+        }
+      });
+      return excelDatas;
     }
   },
   mounted() {
