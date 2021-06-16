@@ -2,6 +2,7 @@
   <v-app
     style="background: #FAFAF0;"
   >
+    <LoadingComponent />
     <MsgbarComponent />
 
     <v-navigation-drawer 
@@ -188,10 +189,12 @@
 </template>
 
 <script>
+import LoadingComponent from '@/components/comm/Loading-component.vue'
 import MsgbarComponent from '@/components/comm/Msgbar-component.vue'
 
 export default {
   components: {
+    LoadingComponent,
     MsgbarComponent
   },
   name: 'App',

@@ -31,6 +31,7 @@ const getters = {
 // actions
 const actions = {
   async findAll({ commit, state, rootGetters }) {
+    commit('enableLoading');
     // 전역 store 이용. user의 userinfo getter를 호출
     const { id } = rootGetters['user/userinfo'];
 
@@ -39,20 +40,35 @@ const actions = {
             .then(res => {
               commit('setCarts', res.data.rows);
               commit('setTotal', res.data.count);
+              commit('disableLoading');
+            })
+            .catch(() => {
+              commit('disableLoading');
             })
   },
-  async searchCarts({ commit, state, rootGetters }, payload) {
+  async searchCart({ commit, state, rootGetters }, payload) {
+    commit('enableLoading');
     // 전역 store 이용. user의 userinfo getter를 호출
     const { id } = rootGetters['user/userinfo'];
 
     await instance
-            .get(`/users/carts/${id}?page=${state.pageNum}&limit=${state.limit}&search=${payload.searchTxt}`)
+            .post(`/users/carts/${id}`, {
+              page: state.pageNum,
+              limit: state.limit,
+              categorys: payload.categorys,
+              search: payload.search
+            })
             .then(res => {
               commit('setCarts', res.data.rows);
               commit('setTotal', res.data.count);
+              commit('disableLoading');
+            })
+            .catch(() => {
+              commit('disableLoading');
             })
   },
-  async addCart({ dispatch, rootGetters }, payload) {
+  async addCart({ dispatch, commit, rootGetters }, payload) {
+    commit('loading/enable', {}, { root: true });
     // 전역 store 이용. user의 userinfo getter를 호출
     const { code } = rootGetters['user/userinfo'];
     const cart = {
@@ -66,7 +82,27 @@ const actions = {
             .post('/cart/add', cart)
             .then(() => {
               dispatch('msg/showInfo', '제품이 카트에 추가되었습니다.', { root: true });
+              commit('loading/disable', {}, { root: true });
+            })
+            .catch(() => {
+              commit('loading/disable', {}, { root: true });
             });
+  },
+  async updateCart({ dispatch }, payload) { 
+    await instance
+            .patch(`/cart/update`, payload)
+            .then(() => {
+              dispatch('msg/showInfo', '수량이 변경되었습니다.', { root: true });
+              dispatch('findAll');
+            });
+  },
+  async removeCart({ dispatch }, payload) {
+    await instance
+            .delete(`/cart/remove/${payload}`)
+            .then(() => {
+              dispatch('msg/showInfo', '항목이 삭제되었습니다.', { root: true });
+              dispatch('findAll');
+            })
   }
 }
 
@@ -86,12 +122,6 @@ const mutations = {
   },
   disableLoading(state) {
     state.loading = false;
-  },
-  updateCart(state, payload) {
-    // TODO :: Cart 갱신로직 개발 중
-    let cart = state.carts.find(cart => cart.id === payload.id);
-    let temp = {...cart, ...payload};
-    console.log(cart, temp);
   }
 }
 
