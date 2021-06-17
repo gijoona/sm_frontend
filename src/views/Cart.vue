@@ -97,6 +97,7 @@
           :loading="loading"
           class="elevation-1"
           disable-sort
+          @click:row="showDetail"
           @update:page="updatePage"
         >
           <template v-slot:item.item.pig="{ item }">
@@ -158,15 +159,18 @@
         </v-data-table>
       </v-col>
     </v-row>
+    <DetailPop @onSave="onPopupSave"/>
   </v-container>
 </template>
 <script>
 import Xlsx from 'xlsx'
 import ImageComponent from '@/components/comm/Img-component.vue'
+import DetailPop from '@/components/carts/contents/Detail-pop.vue'
 
 export default {
   components: {
-    ImageComponent
+    ImageComponent,
+    DetailPop
   },
   name: 'Cart',
   data() {
@@ -233,6 +237,9 @@ export default {
     onSave() {
       this.$store.dispatch('cart/updateCart', this.editedItem);
     },
+    onPopupSave(popupDate) {
+      this.$store.dispatch('cart/updateCart', popupDate);
+    },
     onRemove(item) {
       this.$store.dispatch('cart/removeCart', item.id);
     },
@@ -276,6 +283,9 @@ export default {
         }
       });
       return excelDatas;
+    },
+    showDetail(item) {
+      this.$store.commit('cart/visibleDetail', item);
     }
   },
   mounted() {

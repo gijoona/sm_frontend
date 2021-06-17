@@ -6,7 +6,9 @@ const state = () => ({
   limit: 15,
   total: 0,
   loading: false,
-  carts: []
+  carts: [],
+  isShowDialog: false,
+  selectedItem: []
 })
 
 // getters
@@ -25,6 +27,12 @@ const getters = {
   },
   loading(state) {
     return state.loading;
+  },
+  isShowDialog(state) {
+    return state.isShowDialog;
+  },
+  selectedItem(state) {
+    return state.selectedItem;
   }
 }
 
@@ -135,6 +143,17 @@ const mutations = {
   },
   disableLoading(state) {
     state.loading = false;
+  },
+  visibleDetail(state, payload) {
+    state.isShowDialog = true;
+    state.selectedItem = payload;
+  },
+  hideDetail(state) {
+    state.isShowDialog = false;
+    state.selectedItem = {};
+  },
+  updatedItem(state, payload) {
+    state.selectedItem = payload;
   }
 }
 
