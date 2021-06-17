@@ -44,12 +44,11 @@ instance.interceptors.response.use(
       http status가 200이 아닌 경우 응답 에러 직전 호출.
       .catch() 으로 이어집니다.
     */
-    
     if (error.response.status === 401) {
       if (store.getters['user/isLogin']) {
-        store.dispatch('showErr', '세션이 만료되었습니다.');
+        store.dispatch('msg/showErr', '세션이 만료되었습니다.');
       } else {
-        store.dispatch('showErr', '로그인이 필요합니다.');
+        store.dispatch('msg/showErr', '로그인이 필요합니다.');
       }
     }
     return Promise.reject(error);

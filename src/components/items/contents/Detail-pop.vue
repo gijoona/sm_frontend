@@ -57,18 +57,58 @@
 
       <v-divider></v-divider>
 
-      <v-card-actions class="justify-end">
-        <v-btn
-          dark
-          color="indigo"
-          @click.stop="onAdd"
-        >
-          Add Cart
-        </v-btn>
-        <v-btn
-          text
-          @click="onClose"
-        >Close</v-btn>
+      <v-card-actions>
+        <v-row class="ma-0">
+          <v-col 
+            cols="12"
+            sm="6"
+            md="3"
+            class="d-flex align-center justify-center"
+          >
+            <v-text-field
+              v-model="quantity"
+              dense
+              hide-details
+              prepend-inner-icon="mdi-minus"
+              append-icon="mdi-plus"
+              @click:prepend-inner.stop="decrement"
+              @click:append.stop="increment"
+            >
+            </v-text-field>
+          </v-col>
+
+          <v-spacer></v-spacer>
+
+          <v-col
+            cols="12"
+            sm="6"
+            md="4"
+            class="d-flex align-center justify-end font-weight-bold"
+          >
+            합계 : {{ amount }} 원
+          </v-col>
+
+          <v-col 
+            cols="12"
+            sm="12"
+            md="4"
+            class="d-flex justify-end"
+          >
+            <v-btn
+              dark
+              color="indigo"
+              @click.stop="onAdd"
+            >
+              Add Cart
+            </v-btn>
+            <v-btn
+              text
+              @click="onClose"
+            >Close</v-btn>
+          </v-col>
+        </v-row>
+
+
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -83,7 +123,8 @@ export default {
   name: 'DetailPop',
   data() {
     return {
-      minHeight: 460
+      minHeight: 460,
+      quantity: 1
     }
   },
   computed: {
@@ -97,14 +138,23 @@ export default {
     },
     item() {
       return this.$store.getters['item/selectedItem'];
+    },
+    amount() {
+      return this.item.buyPrice * this.quantity || 0;
     }
   },
   methods: {
     onAdd() {
-      this.$emit('onAdd', this.item);
+      this.$emit('onAdd', { ...{ quantity: this.quantity }, ...(this.item) });
     },
     onClose() {
       this.$store.commit('item/hideDetail');
+    },
+    increment() {
+      this.quantity++;
+    },
+    decrement() {
+      if(this.quantity > 1) this.quantity--;
     }
   }
 }

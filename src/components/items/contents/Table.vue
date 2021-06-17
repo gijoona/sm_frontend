@@ -13,7 +13,6 @@
         hide-default-header
         disable-sort
         @update:page="updatePage"
-        @click:row="showDetail"
       >
         <template v-slot:header="{ isMobile, props: { headers } }">
           <v-data-table-header
@@ -36,6 +35,7 @@
           <v-card
             color="transparent"
             class="elevation-0"
+            @click="showDetail(item)"
           >
             <v-card-subtitle
               class="pt-1 pb-0 pl-1"
@@ -54,10 +54,11 @@
             </v-card-subtitle>
           </v-card>
         </template>
-        <template v-slot:item.actions="{ item }">
-          <v-icon 
-            @click.stop="onAdd(item)"
-          >mdi-cart-plus</v-icon>
+        <template v-slot:item.quantity="{ item }">
+          <QuantityComponent
+            :item="item"
+            @onAdd="(data) => onAdd(data, item)" 
+          />
         </template>
       </v-data-table>
     </v-col>
@@ -65,10 +66,12 @@
 </template>
 <script>
 import ImageComponent from '../../comm/Img-component.vue'
+import QuantityComponent from './Quantity-component.vue'
 
 export default {
   components: {
-    ImageComponent
+    ImageComponent,
+    QuantityComponent
   },
   props: ['items'],
   name: 'TableContents',
@@ -76,8 +79,8 @@ export default {
     return {
       headers: [
         { text: 'THUMBNAIL', value: 'pig', width:'5%',  divider: true, sortable: false },
-        { text: 'CONTENTS', value: 'contents', width: '85%', sortable: false },
-        { value: 'actions', sortable: false }
+        { text: 'CONTENTS', value: 'contents', width: '60%', sortable: false },
+        { text: 'QUANTITY', value: 'quantity', align: 'center', sortable: false },
       ],
       dialog: false,
       selecteditem: {}
@@ -102,8 +105,8 @@ export default {
       this.$store.commit('item/setPageNum', pageNum - 1);
       this.$emit('changePage');
     },
-    onAdd(item) {
-      this.$emit('onAdd', item);
+    onAdd(data, item) {
+      this.$emit('onAdd', { ...{ quantity: data }, ...item });
     },
     showDetail(item) {
       this.$store.commit('item/visibleDetail', item);

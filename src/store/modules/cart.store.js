@@ -75,7 +75,7 @@ const actions = {
       userCd: code,
       itemCd: payload.code,
       itemSeq: 1,
-      quantity: 1
+      quantity: payload.quantity || 1
     };
     
     await instance
@@ -101,6 +101,19 @@ const actions = {
             .delete(`/cart/remove/${payload}`)
             .then(() => {
               dispatch('msg/showInfo', '항목이 삭제되었습니다.', { root: true });
+              dispatch('findAll');
+            })
+  },
+  async removeCarts({ dispatch, commit }, payload) {
+    commit('loading/enable', {}, { root: true });
+
+    await instance
+            .post('/cart/remove',{
+              carts: payload
+            })
+            .then((res) => {
+              commit('loading/disable', {}, { root: true });
+              dispatch('msg/showInfo', `${res.data}개 항목이 삭제되었습니다.`, { root: true });
               dispatch('findAll');
             })
   }

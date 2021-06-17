@@ -76,6 +76,7 @@
           dark
           color="red darken-1"
           class="mr-2"
+          @click.stop="onRemoveCarts"
         >
           <v-icon>fa-trash-alt</v-icon>
         </v-btn>
@@ -144,10 +145,15 @@
             {{ props.item.item.buyPrice * props.item.quantity }}
           </template>
           <template v-slot:item.actions="{ item }">
-            <v-icon 
-              color="red"
+            <v-btn
+              dark
+              color="red darken-1"
+              small
+              fab
               @click.stop="onRemove(item)"
-            >mdi-cart-minus</v-icon>
+            >
+              <v-icon>fa-trash-alt</v-icon>
+            </v-btn>
           </template>
         </v-data-table>
       </v-col>
@@ -168,13 +174,13 @@ export default {
       headers: [
         { text: 'PIG', value: 'item.pig', width:'5%', align: 'center', sortable: false },
         { text: 'CODE', value: 'item.code', align: 'center', sortable: false },
-        { text: 'NAME', value: 'item.nameKor', sortable: false },
+        { text: 'NAME', value: 'item.nameKor', width: '40%', sortable: false },
         { text: 'UNIT', value: 'item.unit', align: 'center', sortable: false },
-        { text: 'PRICE', value: 'item.buyPrice', sortable: false },
+        { text: 'PRICE', value: 'item.buyPrice', align: 'right', sortable: false },
         { text: 'MARKER', value: 'item.marker', align: 'center', sortable: false },
         { text: 'QUANTITY', value: 'quantity', align: 'center', sortable: false },
-        { text: 'AMOUNT', value: 'amount', align: 'center', sortable: false },
-        { text: 'ACTIONS', value: 'actions', align: 'center', sortable: false },
+        { text: 'AMOUNT', value: 'amount', align: 'right', sortable: false },
+        { value: 'actions', align: 'center', sortable: false },
       ],
       selected: [],
       max7chars: v => v.length <= 7 || 'Input too long!',
@@ -230,14 +236,23 @@ export default {
     onRemove(item) {
       this.$store.dispatch('cart/removeCart', item.id);
     },
+    onRemoveCarts() {
+      this.$store.dispatch('cart/removeCarts', this.selected);
+    },
     onCategoryClick(evt) {
-      const selectedChip = this.categorys.find(category => category.nameKor === evt.target.outerText);
+      const target = evt.target.textContent || evt.target.outerText;
+      const selectedChip = this.categorys.find(category => category.nameKor === target);
       if (selectedChip) {
         this.$store.commit('cart/setPageNum', 0);
         this.$store.dispatch('cart/searchCart', { categorys: [selectedChip.code], search: this.searchTxt })
       }
     },
     downloadExcelFile () {
+      if (this.selected.length <= 0) {
+        this.$store.dispatch('msg/showErr', '선택된 항목이 없습니다.');
+        return false;
+      }
+
       const workBook = Xlsx.utils.book_new()
       const workSheet = Xlsx.utils.json_to_sheet(this.generateExcelData())
       Xlsx.utils.book_append_sheet(workBook, workSheet, 'cart-list')
