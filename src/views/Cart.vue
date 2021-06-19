@@ -167,6 +167,7 @@
 import Xlsx from 'xlsx'
 import ImageComponent from '@/components/comm/Img-component.vue'
 import DetailPop from '@/components/carts/contents/Detail-pop.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -200,20 +201,14 @@ export default {
     }
   },
   computed: {
-    carts() {
-      return this.$store.getters['cart/carts'];
-    },
+    ...mapGetters({
+      carts: 'cart/carts',
+      limit: 'cart/limit',
+      total: 'cart/total',
+      loading: 'cart/loading'
+    }),
     pageNum() {
       return this.$store.getters['cart/pageNum'] + 1;
-    },
-    limit() {
-      return this.$store.getters['cart/limit'];
-    },
-    total() {
-      return this.$store.getters['cart/total'];
-    },
-    loading() {
-      return this.$store.getters['cart/loading'];
     },
     categorys() {
       return [{ code: '', nameKor: 'ALL' }, ...(this.$store.getters['category/categorys'])];

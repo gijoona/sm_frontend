@@ -189,6 +189,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 import LoadingComponent from '@/components/comm/Loading-component.vue'
 import MsgbarComponent from '@/components/comm/Msgbar-component.vue'
 
@@ -226,12 +228,10 @@ export default {
         easing: this.easing
       }
     },
-    isLogin() {
-      return this.$store.getters['user/isLogin'];
-    },
-    userinfo() {
-      return this.$store.getters['user/userinfo'];
-    }
+    ...mapGetters({
+      isLogin: 'user/isLogin',
+      userinfo: 'user/userinfo'
+    })
   },
   methods: {
     movePage(page) {

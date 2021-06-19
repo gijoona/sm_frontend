@@ -48,6 +48,7 @@
 import CardContents from '@/components/items/contents/Card'
 import TableContents from '@/components/items/contents/Table'
 import DetailPop from '@/components/items/contents/Detail-pop.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -68,18 +69,12 @@ export default {
     }
   },
   computed: {
-    categoryName() {
-      return this.$store.getters['category/name'];
-    },
-    items() {
-      return this.$store.getters['item/items'];
-    },
-    loading() {
-      return this.$store.getters['item/loading'];
-    },
-    isCardView() {
-      return this.$store.getters['item/isCardView'];
-    }
+    ...mapGetters({
+      categoryName: 'category/name',
+      items: 'item/items',
+      loading: 'item/loading',
+      isCardView: 'item/isCardView'
+    })
   },
   methods: {
     findAll() {
