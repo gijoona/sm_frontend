@@ -6,6 +6,7 @@ import Mypage from '../views/Mypage.vue'
 import Login from '../views/Login.vue'
 import Logout from '../views/Logout.vue'
 import Cart from '../views/Cart.vue'
+import Join from '../views/Join.vue'
 
 import store from './../store'
 
@@ -43,6 +44,11 @@ const routes = [
     path: '/logout',
     name: 'Logout',
     component: Logout
+  },
+  {
+    path: '/join',
+    name: 'Join',
+    component: Join
   }
 ]
 

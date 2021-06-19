@@ -138,6 +138,9 @@ const mutations = {
   setPageNum(state, payload) {
     state.pageNum = payload;
   },
+  setLimit(state, payload) {
+    state.limit = payload === -1 ? state.total : payload;
+  },
   enableLoading(state) {
     state.loading = true;
   },

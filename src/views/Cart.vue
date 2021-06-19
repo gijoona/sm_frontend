@@ -99,6 +99,7 @@
           disable-sort
           @click:row="showDetail"
           @update:page="updatePage"
+          @update:items-per-page="updateLimit"
         >
           <template v-slot:item.item.pig="{ item }">
             <v-avatar
@@ -229,6 +230,10 @@ export default {
     },
     updatePage(pageNum) {
       this.$store.commit('cart/setPageNum', pageNum - 1);
+      this.$store.dispatch('cart/searchCart', { categorys: this.selectedCategorys, search: this.searchTxt })
+    },
+    updateLimit(limit) {
+      this.$store.commit('cart/setLimit', limit);
       this.$store.dispatch('cart/searchCart', { categorys: this.selectedCategorys, search: this.searchTxt })
     },
     onOpen(item) {

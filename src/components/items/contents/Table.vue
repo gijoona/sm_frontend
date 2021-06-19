@@ -13,6 +13,7 @@
         hide-default-header
         disable-sort
         @update:page="updatePage"
+        @update:items-per-page="updateLimit"
       >
         <template v-slot:header="{ isMobile, props: { headers } }">
           <v-data-table-header
@@ -103,6 +104,10 @@ export default {
   methods: {
     updatePage(pageNum) {
       this.$store.commit('item/setPageNum', pageNum - 1);
+      this.$emit('changePage');
+    },
+    updateLimit(limit) {
+      this.$store.commit('item/setLimit', limit);
       this.$emit('changePage');
     },
     onAdd(data, item) {
