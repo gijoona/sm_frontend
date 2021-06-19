@@ -176,7 +176,7 @@ export default {
   data() {
     return {
       headers: [
-        { text: 'PIG', value: 'item.pig', width:'5%', align: 'center', sortable: false },
+        { text: 'THUMBNAIL', value: 'item.pig', width:'5%', align: 'center', sortable: false },
         { text: 'CODE', value: 'item.code', align: 'center', sortable: false },
         { text: 'NAME', value: 'item.nameKor', width: '40%', sortable: false },
         { text: 'UNIT', value: 'item.unit', align: 'center', sortable: false },

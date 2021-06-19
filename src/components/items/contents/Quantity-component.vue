@@ -1,7 +1,14 @@
 <template>
   <v-row>
     <v-col
+      class="d-flex align-center justify-end"
+      lg="5"
+    >
+      합계 : {{ amount }} 원
+    </v-col>
+    <v-col
       lg="7"
+      class="pl-7"
     >
       <v-text-field
         v-model="quantity"
@@ -15,12 +22,6 @@
         @click:append.stop="increment"
         @click:append-outer.stop="onAdd"
       ></v-text-field>
-    </v-col>
-    <v-col
-      class="d-flex align-center justify-end"
-      lg="5"
-    >
-      {{ amount }} 원
     </v-col>
   </v-row>
 </template>

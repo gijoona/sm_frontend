@@ -125,7 +125,19 @@ export default {
   data() {
     return {
       minHeight: 460,
-      editItem: {} 
+      editItem: {},
+      defaultItem: {
+        item: {
+          pig: '',
+          categoryCode: '',
+          code: '',
+          nameKor: '',
+          unit: '',
+          buyPrice: 0,
+          marker: ''
+        },
+        quantity: 0
+      }
     }
   },
   computed: {
@@ -139,7 +151,7 @@ export default {
     },
     selectedItem:{
       get() {
-        return this.$store.getters['cart/selectedItem'];
+        return {...this.defaultItem, ...(this.$store.getters['cart/selectedItem'])};
       },
       set(data) {
         this.$store.commit('cart/updatedItem', data);
