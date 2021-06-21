@@ -27,7 +27,7 @@
             size="72px"
             class="mt-2 mb-2"
           >
-            <ImageComponent
+            <ImgComponent
               :path="item.pig"
             />
           </v-avatar>
@@ -66,15 +66,11 @@
   </v-row>
 </template>
 <script>
-import ImageComponent from '../../comm/Img-component.vue'
 import QuantityComponent from './Quantity-component.vue'
-import CurrencyComponent from './../../comm/Currency-component.vue'
 
 export default {
   components: {
-    ImageComponent,
-    QuantityComponent,
-    CurrencyComponent
+    QuantityComponent
   },
   props: ['items'],
   name: 'TableContents',

@@ -107,7 +107,7 @@
               size="72px"
               class="mt-2 mb-2"
             >
-              <ImageComponent v-if="item.item.pig"
+              <ImgComponent v-if="item.item.pig"
                 :path="item.item.pig"
               />
               <v-icon v-else
@@ -165,16 +165,12 @@
 </template>
 <script>
 import Xlsx from 'xlsx'
-import ImageComponent from '@/components/comm/Img-component.vue'
 import DetailPop from '@/components/carts/contents/Detail-pop.vue'
-import CurrencyComponent from '@/components/comm/Currency-component.vue'
 import { mapGetters } from 'vuex'
 
 export default {
   components: {
-    ImageComponent,
     DetailPop,
-    CurrencyComponent
   },
   name: 'Cart',
   data() {

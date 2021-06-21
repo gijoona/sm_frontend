@@ -26,12 +26,7 @@
   </v-row>
 </template>
 <script>
-import CurrencyComponent from './../../comm/Currency-component.vue'
-
 export default {
-  components: {
-    CurrencyComponent
-  },
   props: [ 'item' ],
   name: 'QuantityComponent',
   data() {

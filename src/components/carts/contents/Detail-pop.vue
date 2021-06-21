@@ -7,11 +7,11 @@
       color="#FAFAF0"
     >
 
-      <ImageComponent
+      <ImgComponent
         contain
         max-height="400"
         :path="selectedItem.item.pig"
-      ></ImageComponent>
+      ></ImgComponent>
 
       <v-card-text>
         <v-subheader
@@ -115,14 +115,7 @@
   </v-dialog>
 </template>
 <script>
-import ImageComponent from './../../comm/Img-component.vue'
-import CurrencyComponent from './../../comm/Currency-component.vue'
-
 export default {
-  components: {
-    ImageComponent,
-    CurrencyComponent
-  },
   name: 'DetailPop',
   data() {
     return {

@@ -10,12 +10,12 @@
         min-height="460"
         @click="showDetail(item)"
       >
-        <ImageComponent
+        <ImgComponent
           contain
           min-width="250"
           height="250"
           :path="item.pig"
-        ></ImageComponent>
+        ></ImgComponent>
 
         <v-card-title>{{ item.nameKor }}</v-card-title>
 
@@ -24,7 +24,7 @@
         <v-card-text>
           <div>코드번호 : {{ item.code }}</div>
           <div>단위 : {{ item.unit }}</div>
-          <div>가격(WON) : {{ item.buyPrice }}</div>
+          <div>가격 : <CurrencyComponent>{{ item.buyPrice }}</CurrencyComponent></div>
         </v-card-text>
 
         <v-divider class="mx-2"></v-divider>
@@ -43,7 +43,6 @@
 </template>
 <script>
 import Vue from 'vue'
-import ImageComponent from '../../comm/Img-component.vue'
 
 // scroll directive
 Vue.directive('scroll', {
@@ -58,9 +57,6 @@ Vue.directive('scroll', {
 })
 
 export default {
-  components: {
-    ImageComponent
-  },
   props: ['items'],
   name: 'CardContents',
   data() {

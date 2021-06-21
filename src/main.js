@@ -6,6 +6,8 @@ import router from './router'
 import axios from 'axios'
 import Vuex from 'vuex'
 
+import '@/components/comm/globals'
+
 Vue.use(Vuex)
 
 Vue.config.productionTip = false

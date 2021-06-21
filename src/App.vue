@@ -191,14 +191,7 @@
 <script>
 import { mapGetters } from 'vuex'
 
-import LoadingComponent from '@/components/comm/Loading-component.vue'
-import MsgbarComponent from '@/components/comm/Msgbar-component.vue'
-
 export default {
-  components: {
-    LoadingComponent,
-    MsgbarComponent
-  },
   name: 'App',
 
   data: () => ({
