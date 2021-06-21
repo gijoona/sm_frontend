@@ -4,7 +4,7 @@
       class="d-flex align-center justify-end"
       lg="5"
     >
-      합계 : {{ amount }} 원
+      합계 : <CurrencyComponent>{{ amount }}</CurrencyComponent>
     </v-col>
     <v-col
       lg="7"
@@ -26,7 +26,12 @@
   </v-row>
 </template>
 <script>
+import CurrencyComponent from './../../comm/Currency-component.vue'
+
 export default {
+  components: {
+    CurrencyComponent
+  },
   props: [ 'item' ],
   name: 'QuantityComponent',
   data() {

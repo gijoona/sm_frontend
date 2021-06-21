@@ -144,7 +144,7 @@
             </v-edit-dialog>
           </template>
           <template v-slot:item.amount="props">
-            {{ props.item.item.buyPrice * props.item.quantity }}
+            <CurrencyComponent>{{ props.item.item.buyPrice * props.item.quantity }}</CurrencyComponent>
           </template>
           <template v-slot:item.actions="{ item }">
             <v-btn
@@ -167,12 +167,14 @@
 import Xlsx from 'xlsx'
 import ImageComponent from '@/components/comm/Img-component.vue'
 import DetailPop from '@/components/carts/contents/Detail-pop.vue'
+import CurrencyComponent from '@/components/comm/Currency-component.vue'
 import { mapGetters } from 'vuex'
 
 export default {
   components: {
     ImageComponent,
-    DetailPop
+    DetailPop,
+    CurrencyComponent
   },
   name: 'Cart',
   data() {

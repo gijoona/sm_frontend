@@ -45,7 +45,7 @@
           <v-divider></v-divider>
           <v-row>
             <v-col md="4">Price</v-col>
-            <v-col md="8">{{ selectedItem.item.buyPrice }}</v-col>
+            <v-col md="8"><CurrencyComponent>{{ selectedItem.item.buyPrice }}</CurrencyComponent></v-col>
           </v-row>
           <v-divider></v-divider>
           <v-row>
@@ -86,7 +86,7 @@
             md="4"
             class="d-flex align-center justify-end font-weight-bold"
           >
-            합계 : {{ amount }} 원
+            합계 : <CurrencyComponent>{{ amount }}</CurrencyComponent>
           </v-col>
 
           <v-col 
@@ -116,10 +116,12 @@
 </template>
 <script>
 import ImageComponent from './../../comm/Img-component.vue'
+import CurrencyComponent from './../../comm/Currency-component.vue'
 
 export default {
   components: {
-    ImageComponent
+    ImageComponent,
+    CurrencyComponent
   },
   name: 'DetailPop',
   data() {

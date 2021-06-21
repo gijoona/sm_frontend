@@ -51,7 +51,7 @@
               class="pb-0 pl-1"
             >
               UNIT : {{ item.unit }} /
-              PRICE : {{ item.buyPrice }}
+              PRICE : <CurrencyComponent>{{ item.buyPrice }}</CurrencyComponent>
             </v-card-subtitle>
           </v-card>
         </template>
@@ -68,11 +68,13 @@
 <script>
 import ImageComponent from '../../comm/Img-component.vue'
 import QuantityComponent from './Quantity-component.vue'
+import CurrencyComponent from './../../comm/Currency-component.vue'
 
 export default {
   components: {
     ImageComponent,
-    QuantityComponent
+    QuantityComponent,
+    CurrencyComponent
   },
   props: ['items'],
   name: 'TableContents',
