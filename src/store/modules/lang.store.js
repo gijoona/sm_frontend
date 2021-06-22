@@ -3,7 +3,7 @@ import instance from './../../plugins/axios'
 // initial state
 const state = () => ({
   id: 1,
-  type: 'KOR',
+  type: 'ENG',
   langs: []
 })
 
@@ -26,9 +26,13 @@ const actions = {
     await instance
             .get(`/lang/find?mid=${state.id}&type=${state.type}`)
             .then(res => {
-              console.log(res.data.slaves);
-              if (res.data.length > 0) commit('setLangs', res.data.slaves);
+              if (res.data.slaves) commit('setLangs', res.data.slaves);
             })
+  },
+  async getText({ state }, payload) {
+    console.log(state.langs);
+    const word = state.langs.find(lang => lang.code === payload);
+    return word ? word.text : payload;
   }
 }
 
@@ -42,6 +46,9 @@ const mutations = {
   },
   setLangs(state, payload) {
     state.langs = payload;
+  },
+  setCode(state, payload) {
+    state.code = payload;
   }
 }
 

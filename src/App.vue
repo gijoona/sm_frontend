@@ -60,7 +60,7 @@
         <span
           class="mr-4 text-overline font-weight-black"
         >
-          SPACE-MARINE에 오신 걸 환영합니다.
+          <TranslateComponent>WELCOME</TranslateComponent>
         </span>
         <v-btn
           icon
@@ -73,7 +73,8 @@
         <span
           class="mr-4 text-overline font-weight-black"
         >
-          안녕하세요. {{ userinfo.name }} 님
+          <TranslateComponent>HELLO</TranslateComponent>.
+          {{ userinfo.name }} 님
         </span>
         <v-btn
           icon
@@ -196,8 +197,10 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import TranslateComponent from './components/comm/Translate-component.vue';
 
 export default {
+  components: { TranslateComponent },
   name: 'App',
 
   data: () => ({

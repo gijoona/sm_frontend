@@ -1,12 +1,24 @@
 <template>
-  <span>{{ getText() }}</span>
+  <span>{{ text }}</span>
 </template>
 <script>
 import { mapGetters } from 'vuex';
 export default {
   name: 'TranslateComponent',
   data() {
-    return {}
+    return {
+      code: '',
+      text: ''
+    }
+  },
+  watch: {
+    langs: {
+      deep: true,
+      immediate: true,
+      handler() {
+        this.getText();
+      }
+    }
   },
   computed: {
     ...mapGetters({
@@ -16,9 +28,11 @@ export default {
   methods: {
     getText() {
       const [ slot ] = this.$slots.default;
-      const word = this.langs.find(lang => lang.code === slot.text);
-      console.log(word);
-      return word ? word.text : slot.text;
+      this.code = slot.text;
+      this.$store.dispatch('lang/getText', this.code)
+                .then(res => {
+                  this.text = res;
+                });
     }
   }
 }
