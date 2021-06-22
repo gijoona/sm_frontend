@@ -23,13 +23,17 @@
             <v-list-item-icon>
               <v-icon>fa-home</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>Home</v-list-item-title>
+            <v-list-item-title>
+              <TranslateComponent>HOME</TranslateComponent>
+            </v-list-item-title>
           </v-list-item>
           <v-list-item to="/prices">
             <v-list-item-icon>
               <v-icon>fa-list</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>Prices</v-list-item-title>
+            <v-list-item-title>
+              <TranslateComponent>PRICES</TranslateComponent>
+            </v-list-item-title>
           </v-list-item>
 
           <v-spacer></v-spacer>
@@ -38,7 +42,9 @@
             <v-list-item-icon>
               <v-icon>fa-user</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>My Page</v-list-item-title>
+            <v-list-item-title>
+              <TranslateComponent>MYPAGE</TranslateComponent>
+            </v-list-item-title>
           </v-list-item>
         </v-list-item-group>
       </v-list>
@@ -126,13 +132,13 @@
             height="35"
           >
             <v-tab to="/">
-              Home
+              <TranslateComponent>HOME</TranslateComponent>
             </v-tab>
             <v-tab to="/prices">
-              Prices
+              <TranslateComponent>PRICES</TranslateComponent>
             </v-tab>
             <v-tab to="/mypage">
-              My page
+              <TranslateComponent>MYPAGE</TranslateComponent>
             </v-tab>
             <v-tabs-slider color="black"></v-tabs-slider>
           </v-tabs>
@@ -233,6 +239,9 @@ export default {
     logout() {
       this.$store.dispatch('user/logout');
     }
+  },
+  beforeCreate() {
+    this.$store.dispatch('lang/find');
   }
 };
 </script>

@@ -6,6 +6,7 @@ import user from './modules/user.store'
 import cart from './modules/cart.store'
 import msg from './modules/msg.store'
 import loading from './modules/loading.store'
+import lang from './modules/lang.store'
 // import createLogger from '../../../src/plugins/logger'
 
 Vue.use(Vuex)
@@ -19,7 +20,8 @@ export default new Vuex.Store({
     user,
     cart,
     msg,
-    loading
+    loading,
+    lang
   },
   strict: debug,
   // plugins: debug ? [createLogger()] : []
