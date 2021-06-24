@@ -55,22 +55,46 @@
       window
       color="#FAFAF0"
     >
+
       <v-spacer></v-spacer>
-      <span v-if="!isLogin">
-        <span
-          class="mr-4 text-overline font-weight-black"
-        >
+
+      <span
+        class="mr-4 pt-1 text-overline font-weight-black"
+      >
+        <span v-if="!isLogin">
           <TranslateComponent>WELCOME</TranslateComponent>
         </span>
+        <span v-else>
+          <TranslateComponent>HELLO</TranslateComponent>
+          {{ userinfo.name }} 님
+        </span>
+      </span>
+
+      <span
+        style="width: 95px;"
+        class="mr-4"
+      >
         <v-select
+          v-model="langType"
           :items="langs"
           item-text="text"
           item-value="value"
+          dense
+          hide-details
+          hide-selected
+          height="14"
+          class="text-overline font-weight-bold"
         >
+          <template v-slot:selection="{ item }">
+            <TranslateComponent>{{ item.text }}</TranslateComponent>
+          </template>
           <template v-slot:item="{ item }">
             <TranslateComponent>{{ item.text }}</TranslateComponent>
           </template>
         </v-select>
+      </span>
+
+      <span v-if="!isLogin">
         <v-btn
           icon
           @click="movePage('login')"
@@ -79,12 +103,6 @@
         </v-btn>
       </span>
       <span v-else>
-        <span
-          class="mr-4 text-overline font-weight-black"
-        >
-          <TranslateComponent>HELLO</TranslateComponent>
-          {{ userinfo.name }} 님
-        </span>
         <v-btn
           icon
           link
@@ -224,14 +242,20 @@ export default {
     langs: [
       { text: 'KOREAN', value: 'KOR' },
       { text: 'ENGLISH', value: 'ENG' },
-    ]
+    ],
+    langType: 'KOR'
   }),
 
   watch: {
     isLogin(val) {
       if (val) this.$router.push('/');
+    },
+    langType(val) {
+      this.$store.commit('lang/setType', val);
+      this.$store.dispatch('lang/find');
     }
   },
+
   computed: {
     target() {
       return Number(this[this.type])
@@ -248,6 +272,7 @@ export default {
       userinfo: 'user/userinfo'
     })
   },
+
   methods: {
     movePage(page) {
       this.$router.push(page);

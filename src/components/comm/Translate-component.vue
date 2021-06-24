@@ -7,11 +7,17 @@ export default {
   name: 'TranslateComponent',
   data() {
     return {
-      code: '',
-      text: ''
+      text: '',
+      slot: {}
     }
   },
   watch: {
+    slot: {
+      deep: true,
+      handler() {
+        this.getText();
+      }
+    },
     langs: {
       deep: true,
       immediate: true,
@@ -23,17 +29,26 @@ export default {
   computed: {
     ...mapGetters({
       langs: 'lang/langs'
-    })
+    }),
+    code() {
+      return this.slot.text;
+    }
   },
   methods: {
     getText() {
-      const [ slot ] = this.$slots.default;
-      this.code = slot.text;
       this.$store.dispatch('lang/getText', this.code)
                 .then(res => {
                   this.text = res;
                 });
     }
+  },
+  created() {
+    const [ slot ] = this.$slots.default;
+    this.slot = slot;
+  },
+  updated() {
+    const [ slot ] = this.$slots.default;
+    this.slot = slot;
   }
 }
 </script>
