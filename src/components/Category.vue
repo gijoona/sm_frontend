@@ -8,7 +8,12 @@
         :value="true"
       >
         <template v-slot:activator>
-          <v-list-item>Category List</v-list-item>
+          <v-list-item>
+            <TranslateComponent>CATEGORY</TranslateComponent> 
+            <TranslateComponent
+              class="ml-1"
+            >LIST</TranslateComponent>
+          </v-list-item>
         </template>
 
         <v-list-item-group

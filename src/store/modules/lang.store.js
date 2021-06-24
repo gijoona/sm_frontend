@@ -3,7 +3,7 @@ import instance from './../../plugins/axios'
 // initial state
 const state = () => ({
   id: 1,
-  type: 'ENG',
+  type: 'KOR',
   langs: []
 })
 
@@ -30,7 +30,6 @@ const actions = {
             })
   },
   async getText({ state }, payload) {
-    console.log(state.langs);
     const word = state.langs.find(lang => lang.code === payload);
     return word ? word.text : payload;
   }

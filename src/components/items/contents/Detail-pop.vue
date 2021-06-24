@@ -16,7 +16,12 @@
       <v-card-text>
         <v-subheader
           class="text-overline font-weight-black"
-        >Product information</v-subheader>
+        >
+          <TranslateComponent>PRODUCT</TranslateComponent> 
+          <TranslateComponent
+            class="ml-1"
+          >INFORMATION</TranslateComponent>
+        </v-subheader>
 
         <v-divider></v-divider>
 
@@ -24,32 +29,44 @@
           class="text-overline font-weight-black"
         >
           <v-row>
-            <v-col md="4">Category</v-col>
+            <v-col md="4">
+              <TranslateComponent>CATEGORY</TranslateComponent>
+            </v-col>
             <v-col md="8">{{ item.categoryCode }}</v-col>
           </v-row>
           <v-divider></v-divider>
           <v-row>
-            <v-col md="4">Code</v-col>
+            <v-col md="4">
+              <TranslateComponent>CODE</TranslateComponent>
+            </v-col>
             <v-col md="8">{{ item.code }}</v-col>
           </v-row>
           <v-divider></v-divider>
           <v-row>
-            <v-col md="4">Name</v-col>
+            <v-col md="4">
+              <TranslateComponent>NAME</TranslateComponent>
+            </v-col>
             <v-col md="8">{{ item.nameKor }}</v-col>
           </v-row>
           <v-divider></v-divider>
           <v-row>
-            <v-col md="4">Unit</v-col>
+            <v-col md="4">
+              <TranslateComponent>UNIT</TranslateComponent>
+            </v-col>
             <v-col md="8">{{ item.unit }}</v-col>
           </v-row>
           <v-divider></v-divider>
           <v-row>
-            <v-col md="4">Price</v-col>
+            <v-col md="4">
+              <TranslateComponent>PRICE</TranslateComponent>
+            </v-col>
             <v-col md="8"><CurrencyComponent>{{ item.buyPrice }}</CurrencyComponent></v-col>
           </v-row>
           <v-divider></v-divider>
           <v-row>
-            <v-col md="4">Marker</v-col>
+            <v-col md="4">
+              <TranslateComponent>MARKER</TranslateComponent>
+            </v-col>
             <v-col md="8">{{ item.marker }}</v-col>
           </v-row>
         </v-container>
@@ -99,12 +116,14 @@
               color="indigo"
               @click.stop="onAdd"
             >
-              Add Cart
+              <TranslateComponent>ADD_CART</TranslateComponent>
             </v-btn>
             <v-btn
               text
               @click="onClose"
-            >Close</v-btn>
+            >
+              <TranslateComponent>CLOSE</TranslateComponent>
+            </v-btn>
           </v-col>
         </v-row>
 

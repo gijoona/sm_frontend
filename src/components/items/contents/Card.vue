@@ -22,9 +22,9 @@
         <v-divider class="mx-4"></v-divider>
 
         <v-card-text>
-          <div>코드번호 : {{ item.code }}</div>
-          <div>단위 : {{ item.unit }}</div>
-          <div>가격 : <CurrencyComponent>{{ item.buyPrice }}</CurrencyComponent></div>
+          <div><TranslateComponent>CODE</TranslateComponent> : {{ item.code }}</div>
+          <div><TranslateComponent>UNIT</TranslateComponent> : {{ item.unit }}</div>
+          <div><TranslateComponent>PRICE</TranslateComponent> : <CurrencyComponent>{{ item.buyPrice }}</CurrencyComponent></div>
         </v-card-text>
 
         <v-divider class="mx-2"></v-divider>
@@ -34,7 +34,7 @@
             color="indigo"
             @click.stop="onAdd(item)"
           >
-            Add Cart
+            <TranslateComponent>ADD_CART</TranslateComponent>
           </v-btn>
         </v-card-actions>
       </v-card>

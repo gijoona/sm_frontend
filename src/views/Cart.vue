@@ -101,6 +101,34 @@
           @update:page="updatePage"
           @update:items-per-page="updateLimit"
         >
+          <!-- Headers -->
+          <template v-slot:header.item.pig="{ header }">
+            <TranslateComponent>{{ header.text }}</TranslateComponent>
+          </template>
+          <template v-slot:header.item.code="{ header }">
+            <TranslateComponent>{{ header.text }}</TranslateComponent>
+          </template>
+          <template v-slot:header.item.nameKor="{ header }">
+            <TranslateComponent>{{ header.text }}</TranslateComponent>
+          </template>
+          <template v-slot:header.item.unit="{ header }">
+            <TranslateComponent>{{ header.text }}</TranslateComponent>
+          </template>
+          <template v-slot:header.item.buyPrice="{ header }">
+            <TranslateComponent>{{ header.text }}</TranslateComponent>
+          </template>
+          <template v-slot:header.item.marker="{ header }">
+            <TranslateComponent>{{ header.text }}</TranslateComponent>
+          </template>
+          <template v-slot:header.quantity="{ header }">
+            <TranslateComponent>{{ header.text }}</TranslateComponent>
+          </template>
+          <template v-slot:header.amount="{ header }">
+            <TranslateComponent>{{ header.text }}</TranslateComponent>
+          </template>
+          <!-- Headers -->
+
+          <!-- Bodys -->
           <template v-slot:item.item.pig="{ item }">
             <v-avatar
               tile
@@ -157,6 +185,8 @@
               <v-icon>fa-trash-alt</v-icon>
             </v-btn>
           </template>
+          <!-- Bodys -->
+
         </v-data-table>
       </v-col>
     </v-row>
@@ -170,7 +200,7 @@ import { mapGetters } from 'vuex'
 
 export default {
   components: {
-    DetailPop,
+    DetailPop
   },
   name: 'Cart',
   data() {

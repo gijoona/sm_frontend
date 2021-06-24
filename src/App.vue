@@ -62,6 +62,15 @@
         >
           <TranslateComponent>WELCOME</TranslateComponent>
         </span>
+        <v-select
+          :items="langs"
+          item-text="text"
+          item-value="value"
+        >
+          <template v-slot:item="{ item }">
+            <TranslateComponent>{{ item.text }}</TranslateComponent>
+          </template>
+        </v-select>
         <v-btn
           icon
           @click="movePage('login')"
@@ -73,7 +82,7 @@
         <span
           class="mr-4 text-overline font-weight-black"
         >
-          <TranslateComponent>HELLO</TranslateComponent>.
+          <TranslateComponent>HELLO</TranslateComponent>
           {{ userinfo.name }} 님
         </span>
         <v-btn
@@ -211,7 +220,11 @@ export default {
     number: 0,
     duration: 500,
     offset: 0,
-    easing: 'easeInOutCubic'
+    easing: 'easeInOutCubic',
+    langs: [
+      { text: 'KOREAN', value: 'KOR' },
+      { text: 'ENGLISH', value: 'ENG' },
+    ]
   }),
 
   watch: {

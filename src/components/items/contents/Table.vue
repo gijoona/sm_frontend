@@ -10,17 +10,23 @@
         :server-items-length="total"
         :loading="loading"
         class="elevation-1"
-        hide-default-header
         disable-sort
         @update:page="updatePage"
         @update:items-per-page="updateLimit"
       >
-        <template v-slot:header="{ isMobile, props: { headers } }">
-          <v-data-table-header
-            v-if="!isMobile"
-            :headers="headers"
-          ></v-data-table-header>
+        <!-- Headers -->
+        <template v-slot:header.pig="{ header }">
+          <TranslateComponent>{{ header.text }}</TranslateComponent>
         </template>
+        <template v-slot:header.contents="{ header }">
+          <TranslateComponent>{{ header.text }}</TranslateComponent>
+        </template>
+        <template v-slot:header.quantity="{ header }">
+          <TranslateComponent>{{ header.text }}</TranslateComponent>
+        </template>
+        <!-- Headers -->
+
+        <!-- Bodys -->
         <template v-slot:item.pig="{ item }">
           <v-avatar
             tile
@@ -50,8 +56,8 @@
             <v-card-subtitle
               class="pb-0 pl-1"
             >
-              UNIT : {{ item.unit }} /
-              PRICE : <CurrencyComponent>{{ item.buyPrice }}</CurrencyComponent>
+              <TranslateComponent>UNIT</TranslateComponent> : {{ item.unit }} /
+              <TranslateComponent>PRICE</TranslateComponent> : <CurrencyComponent>{{ item.buyPrice }}</CurrencyComponent>
             </v-card-subtitle>
           </v-card>
         </template>
@@ -61,6 +67,8 @@
             @onAdd="(data) => onAdd(data, item)" 
           />
         </template>
+        <!-- Bodys -->
+
       </v-data-table>
     </v-col>
   </v-row>
@@ -70,14 +78,14 @@ import QuantityComponent from './Quantity-component.vue'
 
 export default {
   components: {
-    QuantityComponent
+    QuantityComponent,
   },
   props: ['items'],
   name: 'TableContents',
   data() {
     return {
       headers: [
-        { text: 'THUMBNAIL', value: 'pig', width:'5%',  divider: true, sortable: false },
+        { text: 'THUMBNAIL', value: 'pig', width:'5%', align: 'center',  divider: true, sortable: false },
         { text: 'CONTENTS', value: 'contents', width: '60%', sortable: false },
         { text: 'QUANTITY', value: 'quantity', align: 'center', sortable: false },
       ],
