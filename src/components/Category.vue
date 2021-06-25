@@ -33,7 +33,14 @@
                   <v-icon v-if="active">mdi-chevron-right</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
-                  <v-list-item-title v-text="`${category.code}. ${category.nameKor}`"></v-list-item-title>
+                  <v-list-item-title 
+                    v-if="langType === 'KOR'"
+                    v-text="`${category.code}. ${category.nameKor}`"
+                  ></v-list-item-title>
+                  <v-list-item-title 
+                    v-else
+                    v-text="`${category.code}. ${category.nameEng}`"
+                  ></v-list-item-title>
                 </v-list-item-content>
               </template>
             </v-list-item>
@@ -49,6 +56,8 @@
   </v-card>
 </template>
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'Categorys',
   data() {
@@ -58,9 +67,10 @@ export default {
     }
   },
   computed:{
-    categorys() {
-      return this.$store.getters['category/categorys'];
-    }
+    ...mapGetters({
+      categorys: 'category/categorys',
+      langType: 'lang/type'
+    })
   },
   methods: {
     findAll() {

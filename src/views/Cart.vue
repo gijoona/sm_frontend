@@ -143,6 +143,16 @@
               >fa-camera</v-icon>
             </v-avatar>
           </template>
+
+          <template v-slot:item.item.name="{ item }">
+            <span v-if="langType === 'KOR'">
+              {{ item.item.nameKor }}
+            </span>
+            <span v-else>
+              {{ item.item.nameEng }}
+            </span>
+          </template>
+
           <template v-slot:item.quantity="props">
             <v-edit-dialog
               large
@@ -208,7 +218,7 @@ export default {
       headers: [
         { text: 'THUMBNAIL', value: 'item.pig', width:'5%', align: 'center', sortable: false },
         { text: 'CODE', value: 'item.code', align: 'center', sortable: false },
-        { text: 'NAME', value: 'item.nameKor', width: '40%', sortable: false },
+        { text: 'NAME', value: 'item.name', width: '40%', sortable: false },
         { text: 'UNIT', value: 'item.unit', align: 'center', sortable: false },
         { text: 'PRICE', value: 'item.buyPrice', align: 'right', sortable: false },
         { text: 'MARKER', value: 'item.marker', align: 'center', sortable: false },
@@ -233,7 +243,8 @@ export default {
       carts: 'cart/carts',
       limit: 'cart/limit',
       total: 'cart/total',
-      loading: 'cart/loading'
+      loading: 'cart/loading',
+      langType: 'lang/type'
     }),
     pageNum() {
       return this.$store.getters['cart/pageNum'] + 1;

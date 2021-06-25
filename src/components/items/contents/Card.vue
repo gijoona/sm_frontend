@@ -17,7 +17,14 @@
           :path="item.pig"
         ></ImgComponent>
 
-        <v-card-title>{{ item.nameKor }}</v-card-title>
+        <v-card-title>
+          <span v-if="langType === 'KOR'">
+            {{ item.nameKor }}
+          </span>
+          <span v-else>
+            {{ item.nameEng }}
+          </span>
+        </v-card-title>
 
         <v-divider class="mx-4"></v-divider>
 
@@ -30,6 +37,7 @@
         <v-divider class="mx-2"></v-divider>
         <v-card-actions>
           <v-btn
+            dark
             block
             color="indigo"
             @click.stop="onAdd(item)"
@@ -43,6 +51,7 @@
 </template>
 <script>
 import Vue from 'vue'
+import { mapGetters } from 'vuex'
 
 // scroll directive
 Vue.directive('scroll', {
@@ -61,6 +70,11 @@ export default {
   name: 'CardContents',
   data() {
     return {}
+  },
+  computed: {
+    ...mapGetters({
+      langType: 'lang/type'
+    })
   },
   methods: {
     handleScroll(evt) {

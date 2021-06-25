@@ -74,6 +74,7 @@
                   block
                   dark
                   color="green"
+                  to="/join"
                 >Join</v-btn>
               </v-col>
             </v-row>

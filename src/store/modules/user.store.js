@@ -44,7 +44,15 @@ const actions = {
   },
   logout({commit}) {
     commit('logoutSuccess');
-  }
+  },
+  async save({ commit }, payload) {
+    commit('loading/enable', {}, { root: true });
+    await instance
+              .post('/users/save', payload.savedItem )
+              .then(() => {
+                commit('loading/disable', {}, { root: true });
+              });
+  },
 }
 
 // mutations

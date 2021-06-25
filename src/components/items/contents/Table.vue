@@ -51,7 +51,13 @@
             </v-card-subtitle>
             <v-card-title
               class="pt-0 pl-1"
-            >{{ item.nameKor }}
+            >
+              <span v-if="langType === 'KOR'">
+                {{ item.nameKor }}
+              </span>
+              <span v-else>
+                {{ item.nameEng }}
+              </span>
             </v-card-title>
             <v-card-subtitle
               class="pb-0 pl-1"
@@ -74,6 +80,7 @@
   </v-row>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 import QuantityComponent from './Quantity-component.vue'
 
 export default {
@@ -97,15 +104,12 @@ export default {
     pageNum() {
       return this.$store.getters['item/pageNum'] + 1;
     },
-    limit() {
-      return this.$store.getters['item/limit'];
-    },
-    total() {
-      return this.$store.getters['item/total'];
-    },
-    loading() {
-      return this.$store.getters['item/loading'];
-    },
+    ...mapGetters({
+      limit:'item/limit',
+      total: 'item/total',
+      loading: 'item/loading',
+      langType: 'lang/type'
+    })
   },
   methods: {
     updatePage(pageNum) {

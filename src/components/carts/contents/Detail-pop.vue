@@ -43,7 +43,14 @@
             <v-col md="4">
               <TranslateComponent>NAME</TranslateComponent>
             </v-col>
-            <v-col md="8">{{ selectedItem.item.nameKor }}</v-col>
+            <v-col md="8">
+              <span v-if="langType === 'KOR'">
+                {{ selectedItem.item.nameKor }}
+              </span>
+              <span v-else>
+                {{ selectedItem.item.nameEng }}
+              </span>
+            </v-col>
           </v-row>
           <v-divider></v-divider>
           <v-row>
@@ -170,6 +177,9 @@ export default {
     },
     amount() {
       return this.selectedItem.item.buyPrice * this.selectedItem.quantity || 0;
+    },
+    langType() {
+      return this.$store.getters['lang/type'];
     }
   },
   methods: {
