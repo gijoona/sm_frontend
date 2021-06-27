@@ -278,7 +278,8 @@ export default {
       this.$router.push(page);
     },
     logout() {
-      this.$store.dispatch('user/logout');
+      this.$store.dispatch('user/logout')
+          .then(() => this.$router.push('/'));
     }
   },
   beforeCreate() {

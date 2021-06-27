@@ -45,10 +45,27 @@ const actions = {
   logout({commit}) {
     commit('logoutSuccess');
   },
+  async join({ commit }, payload) {
+    commit('loading/enable', {}, { root: true });
+    return await instance
+              .post('/users/create', payload.memberInfo )
+              .then(() => {
+                commit('loading/disable', {}, { root: true });
+              });
+  },
+  async findId({ commit }, payload) {
+    commit('loading/enable', {}, { root: true });
+    return await instance
+              .get(`/users/findOne/${payload}`)
+              .then((res) => {
+                commit('loading/disable', {}, { root: true });
+                return res;
+              })
+  },
   async save({ commit }, payload) {
     commit('loading/enable', {}, { root: true });
-    await instance
-              .post('/users/save', payload.savedItem )
+    return await instance
+              .post('/users/save', payload.memberInfo )
               .then(() => {
                 commit('loading/disable', {}, { root: true });
               });
