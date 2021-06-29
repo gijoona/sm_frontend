@@ -4,8 +4,8 @@ import store from './../store';
 
 // axios 인스턴스를 생성합니다.
 const instance = axios.create({
-  baseURL: 'http://ec2-3-12-199-144.us-east-2.compute.amazonaws.com:5000',
-  // baseURL: 'http://localhost:5000',
+  // baseURL: 'http://ec2-3-12-199-144.us-east-2.compute.amazonaws.com:5000',
+  baseURL: 'http://localhost:5000',
   timeout: 10000
 });
 
@@ -18,6 +18,7 @@ instance.interceptors.request.use(
     // 요청 성공 직전 호출.
     // axios 설정값을 넣습니다. (사용자 정의 설정도 추가 가능)
     config.headers.Authorization = `Bearer ${sessionStorage.getItem('access_token')}`;
+    store.dispatch('logs/writeLog', config);
     return config;
   }, 
   function (error) {

@@ -77,6 +77,7 @@ const actions = {
   },
   async addCart({ dispatch, commit, rootGetters }, payload) {
     commit('loading/enable', {}, { root: true });
+
     // 전역 store 이용. user의 userinfo getter를 호출
     const { code } = rootGetters['user/userinfo'];
     const cart = {

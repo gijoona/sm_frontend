@@ -7,6 +7,7 @@ import cart from './modules/cart.store'
 import msg from './modules/msg.store'
 import loading from './modules/loading.store'
 import lang from './modules/lang.store'
+import logs from './modules/logs.store'
 // import createLogger from '../../../src/plugins/logger'
 
 Vue.use(Vuex)
@@ -21,7 +22,8 @@ export default new Vuex.Store({
     cart,
     msg,
     loading,
-    lang
+    lang,
+    logs
   },
   strict: debug,
   // plugins: debug ? [createLogger()] : []
