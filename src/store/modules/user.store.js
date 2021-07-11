@@ -70,6 +70,24 @@ const actions = {
                 commit('loading/disable', {}, { root: true });
               });
   },
+  async finCmpNo({ commit }, payload) {
+    commit('loading/enable', {}, { root: true });
+    return await instance
+              .get(`/comps/findCmpNo/${payload}`)
+              .then((res) => {
+                commit('loading/disable', {}, { root: true });
+                return res;
+              })
+  },
+  async registComp({ commit }, payload) {
+    commit('loading/enable', {}, { root: true });
+    return await instance
+              .post('/comps/save', payload.companyInfo )
+              .then((res) => {
+                commit('loading/disable', {}, { root: true });
+                return res;
+              })
+  }
 }
 
 // mutations
