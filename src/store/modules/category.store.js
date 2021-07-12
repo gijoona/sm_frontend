@@ -28,6 +28,11 @@ const actions = {
             .then(res => {
               if (res.data.length > 0) commit('setCategorys', res.data);
             })
+  },
+  async findCompanyList(obj, payload) {
+    return await instance
+            .get(`/category/findCompanyList/${payload}`)
+            .then(res => { return res.data; })
   }
 }
 

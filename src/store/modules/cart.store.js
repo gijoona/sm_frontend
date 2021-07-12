@@ -33,6 +33,9 @@ const getters = {
   },
   selectedItem(state) {
     return state.selectedItem;
+  },
+  cartCategorys(state) {
+    return [...new Set(state.carts.map(cart => cart.itemCd.substring(0, 2)).sort())];
   }
 }
 

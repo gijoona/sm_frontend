@@ -200,6 +200,19 @@
         </v-data-table>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col>
+        <v-row v-for="(category, idx) in categoryCompanyList" :key="'cat' + idx">
+          <v-col>
+            <v-row  v-for="(company, idx) in category.companys" :key="'comp' + idx">
+              <v-col>{{ category.nameKor }}</v-col>
+              <v-col>{{ company.name }}</v-col>
+              <v-col>({{ company.zipCode }}) {{ company.addr1 }} {{ company.addr2 }}</v-col>
+            </v-row>
+          </v-col>
+        </v-row>
+      </v-col>
+    </v-row>
     <DetailPop @onSave="onPopupSave"/>
   </v-container>
 </template>
@@ -230,12 +243,16 @@ export default {
       max7chars: v => v.length <= 7 || 'Input too long!',
       editedItem: {},
       searchTxt: '',
-      selectedCategorys: ['']
+      selectedCategorys: [''],
+      categoryCompanyList: []
     }
   },
   watch: {
     selectedCategorys() {
       this.search();
+    },
+    cartCategorys() {
+      this.getCompanyList();
     }
   },
   computed: {
@@ -243,6 +260,7 @@ export default {
       carts: 'cart/carts',
       limit: 'cart/limit',
       total: 'cart/total',
+      cartCategorys: 'cart/cartCategorys',
       loading: 'cart/loading',
       langType: 'lang/type'
     }),
@@ -261,6 +279,13 @@ export default {
     getCartList() {
       this.$store.dispatch('category/findAll');
       this.$store.dispatch('cart/findAll');
+    },
+    getCompanyList() {
+      this.categoryCompanyList = [];
+      for(let code of this.cartCategorys) {
+        this.$store.dispatch('category/findCompanyList', code)
+                    .then(data => this.categoryCompanyList.push(...data));
+      }
     },
     updatePage(pageNum) {
       this.$store.commit('cart/setPageNum', pageNum - 1);

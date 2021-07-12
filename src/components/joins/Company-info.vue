@@ -137,6 +137,7 @@
                   hide-details
                   deletable-chips
                   return-object
+                  :readonly="!isNotExists"
                 ></v-select>
               </v-col>
             </v-row>
@@ -242,8 +243,10 @@ export default {
             if (res.data && res.data.cmpNo) {
               this.isExists = true;
               this.formData = res.data;
+              this.selectedCategorys = res.data.categorys;
             } else {
               this.formData = {...this.defaultData, ...{ cmpNo: this.formData.cmpNo }};
+              this.selectedCategorys = [];
               this.isNotExists = true;
               this.notExistMsg = '미등록된 사업자등록번호 입니다.';
             }
