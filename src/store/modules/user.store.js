@@ -81,6 +81,7 @@ const actions = {
   },
   async registComp({ commit }, payload) {
     commit('loading/enable', {}, { root: true });
+    payload.companyInfo.categorys = payload.categorys;
     return await instance
               .post('/comps/save', payload.companyInfo )
               .then((res) => {

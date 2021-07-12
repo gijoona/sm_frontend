@@ -122,6 +122,24 @@
                 ></v-text-field>
               </v-col>
             </v-row>
+            <v-row>
+              <v-col>
+                <v-select
+                  v-model="selectedCategorys"
+                  label="취급품목"
+                  :items="categorys"
+                  item-text="nameKor"
+                  item-value="code"
+                  multiple
+                  chips
+                  dense
+                  solo
+                  hide-details
+                  deletable-chips
+                  return-object
+                ></v-select>
+              </v-col>
+            </v-row>
 
           </v-container>
         </v-form>
@@ -154,6 +172,7 @@ export default {
   name: 'CompanyInfo',
   data() {
     return {
+      selectedCategorys: [],
       valid: true,
       isNotExists: false,
       isExists: false,
@@ -167,6 +186,7 @@ export default {
         cmpNm: '',
         bzNo: '',
         ceoNm: '',
+        categorys: []
       },
       formData: {
         name: '',
@@ -176,6 +196,7 @@ export default {
         cmpNm: '',
         bzNo: '',
         ceoNm: '',
+        categorys: []
       },
       nameRules: [
         v => !!v || '상호은(는) 필수값 입니다.',
@@ -188,13 +209,18 @@ export default {
       ]
     }
   },
+  computed: {
+    categorys() {
+      return this.$store.getters['category/categorys'];
+    }
+  },
   methods: {
     clickNext() {
       this.$emit('next');
     },
     save() {
       if(this.$refs.form.validate()) {
-        this.$store.dispatch('user/registComp', { companyInfo: this.formData })
+        this.$store.dispatch('user/registComp', { companyInfo: this.formData, categorys: this.selectedCategorys })
             .then((res) => this.$emit('complete', res.data));
       }
     },
@@ -237,6 +263,9 @@ export default {
         }
       }).open();
     }
+  },
+  mounted() {
+    this.$store.dispatch('category/findAll');
   }
 }
 </script>
