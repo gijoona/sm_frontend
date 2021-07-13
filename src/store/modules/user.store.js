@@ -88,6 +88,16 @@ const actions = {
                 commit('loading/disable', {}, { root: true });
                 return res;
               })
+  },
+  async updateComp({ commit }, payload) {
+    commit('loading/enable', {}, { root: true });
+    payload.companyInfo.categorys = payload.categorys;
+    return await instance
+              .patch('/comps/update', payload.companyInfo )
+              .then((res) => {
+                commit('loading/disable', {}, { root: true });
+                return res;
+              })
   }
 }
 
