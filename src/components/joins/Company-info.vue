@@ -76,6 +76,34 @@
 
             <v-row>
               <v-col>
+                <v-text-field
+                  v-model="formData.email"
+                  :rules="emailRules"
+                  label="이메일"
+                  required
+                  dense
+                ></v-text-field>
+              </v-col>
+              <v-col>
+                <v-text-field
+                  v-model="formData.tel"
+                  :rules="telRules"
+                  label="전화번호"
+                  dense
+                ></v-text-field>
+              </v-col>
+              <v-col>
+                <v-text-field
+                  v-model="formData.fax"
+                  :rules="telRules"
+                  label="팩스"
+                  dense
+                ></v-text-field>
+              </v-col>
+            </v-row>
+
+            <v-row>
+              <v-col>
                 <v-row>
                   <v-col
                     cols="12"
@@ -181,6 +209,9 @@ export default {
       existMsg: '',
       defaultData: {
         name: '',
+        email: '',
+        tel: '',
+        fax: '',
         zipCode: '',
         addr1: '',
         addr2: '',
@@ -191,6 +222,9 @@ export default {
       },
       formData: {
         name: '',
+        email: '',
+        tel: '',
+        fax: '',
         zipCode: '',
         addr1: '',
         addr2: '',
@@ -207,7 +241,14 @@ export default {
       cmpNoRules: [
         v => !!v || '사업자등록번호은(는) 필수값 입니다.',
         v => /\d{3}-\d{2}-\d{5}$/.test(v) || '사업자등록번호 형식이 맞지 않습니다.',
-      ]
+      ],
+      emailRules: [
+        v => !!v || 'E-mail은(는) 필수값 입니다.',
+        v => /.+@.+\..+/.test(v) || '이메일 형식이 맞지 않습니다.',
+      ],
+      telRules: [
+        v => (!v || /\d{2,3}-\d{3,4}-\d{4}/.test(v)) || '전화번호 형식이 맞지 않습니다.',
+      ],
     }
   },
   computed: {

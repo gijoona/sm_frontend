@@ -200,17 +200,52 @@
         </v-data-table>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row v-for="(category, idx) in categoryCompanyList" :key="'cat' + idx">
       <v-col>
-        <v-row v-for="(category, idx) in categoryCompanyList" :key="'cat' + idx">
-          <v-col>
-            <v-row  v-for="(company, idx) in category.companys" :key="'comp' + idx">
-              <v-col>{{ category.nameKor }}</v-col>
-              <v-col>{{ company.name }}</v-col>
-              <v-col>({{ company.zipCode }}) {{ company.addr1 }} {{ company.addr2 }}</v-col>
+        <v-card>
+          <v-toolbar
+            color="indigo"
+            flat
+            dark
+            dense
+          >
+            <v-toolbar-title
+              class="text-overline font-weight-black"
+            >
+              {{ category.nameKor }}
+            </v-toolbar-title>
+          </v-toolbar>
+          <v-card-text>
+            <v-row
+              class="text-center text-overline font-weight-black"
+            >
+              <v-col>업체명</v-col>
+              <v-divider vertical></v-divider>
+              <v-col>이메일</v-col>
+              <v-divider vertical></v-divider>
+              <v-col>전화번호</v-col>
+              <v-divider vertical></v-divider>
+              <v-col>팩스</v-col>
             </v-row>
-          </v-col>
-        </v-row>
+
+            <v-divider></v-divider>
+
+            <div v-for="(company, idx) in category.companys" :key="'comp' + idx">
+              <v-row
+                class="py-3 text-center"
+              >
+                <v-col>{{ company.name }}</v-col>
+                <v-divider vertical></v-divider>
+                <v-col>{{ company.email }}</v-col>
+                <v-divider vertical></v-divider>
+                <v-col>{{ company.tel }}</v-col>
+                <v-divider vertical></v-divider>
+                <v-col>{{ company.fax }}</v-col>
+              </v-row>
+              <v-divider></v-divider>
+            </div>
+          </v-card-text>
+        </v-card>
       </v-col>
     </v-row>
     <DetailPop @onSave="onPopupSave"/>
