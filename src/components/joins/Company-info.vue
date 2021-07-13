@@ -27,7 +27,6 @@
                       label="사업자등록번호 (123-12-12345)"
                       required
                       dense
-                      @input="resetExists"
                     ></v-text-field>
                   </v-col>
                   <v-col
@@ -175,7 +174,7 @@
       </v-card-text>
     </v-card>
 
-    <v-btn v-if="!isExists"
+    <v-btn v-if="isNotExists"
       color="primary"
       @click="save"
     >
@@ -204,9 +203,7 @@ export default {
       selectedCategorys: [],
       valid: true,
       isNotExists: false,
-      isExists: false,
       notExistMsg: '',
-      existMsg: '',
       defaultData: {
         name: '',
         email: '',
@@ -282,7 +279,8 @@ export default {
       this.$store.dispatch('user/finCmpNo', this.formData.cmpNo)
           .then((res) => {
             if (res.data && res.data.cmpNo) {
-              this.isExists = true;
+              this.isNotExists = false;
+              this.notExistMsg = '';
               this.formData = res.data;
               this.selectedCategorys = res.data.categorys;
             } else {
@@ -292,10 +290,6 @@ export default {
               this.notExistMsg = '미등록된 사업자등록번호 입니다.';
             }
           })
-    },
-    resetExists() {
-      this.isExists = false;
-      this.existMsg = '';
     },
     openZippop() {
       const self = this.formData;
