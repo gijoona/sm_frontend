@@ -212,7 +212,7 @@
             <v-toolbar-title
               class="text-overline font-weight-black"
             >
-              {{ category.nameKor }}
+              {{ category.code }}. {{ category.nameKor }}
             </v-toolbar-title>
           </v-toolbar>
           <v-card-text>

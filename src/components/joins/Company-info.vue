@@ -79,7 +79,6 @@
                   v-model="formData.email"
                   :rules="emailRules"
                   label="이메일"
-                  required
                   dense
                 ></v-text-field>
               </v-col>
@@ -155,7 +154,7 @@
                   v-model="selectedCategorys"
                   label="취급품목"
                   :items="categorys"
-                  item-text="nameKor"
+                  item-text="nameKor2"
                   item-value="code"
                   multiple
                   chips
@@ -240,8 +239,7 @@ export default {
         v => /\d{3}-\d{2}-\d{5}$/.test(v) || '사업자등록번호 형식이 맞지 않습니다.',
       ],
       emailRules: [
-        v => !!v || 'E-mail은(는) 필수값 입니다.',
-        v => /.+@.+\..+/.test(v) || '이메일 형식이 맞지 않습니다.',
+        v => (!v || /.+@.+\..+/.test(v)) || '이메일 형식이 맞지 않습니다.',
       ],
       telRules: [
         v => (!v || /\d{2,3}-\d{3,4}-\d{4}/.test(v)) || '전화번호 형식이 맞지 않습니다.',
@@ -276,20 +274,22 @@ export default {
       this.$refs.form.resetValidation()
     },
     cmpNoExistChk() {
-      this.$store.dispatch('user/finCmpNo', this.formData.cmpNo)
-          .then((res) => {
-            if (res.data && res.data.cmpNo) {
-              this.isNotExists = false;
-              this.notExistMsg = '';
-              this.formData = res.data;
-              this.selectedCategorys = res.data.categorys;
-            } else {
-              this.formData = {...this.defaultData, ...{ cmpNo: this.formData.cmpNo }};
-              this.selectedCategorys = [];
-              this.isNotExists = true;
-              this.notExistMsg = '미등록된 사업자등록번호 입니다.';
-            }
-          })
+      if(this.formData.cmpNo && /\d{3}-\d{2}-\d{5}$/.test(this.formData.cmpNo)) {
+        this.$store.dispatch('user/finCmpNo', this.formData.cmpNo)
+            .then((res) => {
+              if (res.data && res.data.cmpNo) {
+                this.isNotExists = false;
+                this.notExistMsg = '';
+                this.formData = res.data;
+                this.selectedCategorys = res.data.categorys;
+              } else {
+                this.formData = {...this.defaultData, ...{ cmpNo: this.formData.cmpNo }};
+                this.selectedCategorys = [];
+                this.isNotExists = true;
+                this.notExistMsg = '미등록된 사업자등록번호 입니다.';
+              }
+            })
+      }
     },
     openZippop() {
       const self = this.formData;
