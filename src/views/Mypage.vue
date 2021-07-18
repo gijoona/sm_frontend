@@ -19,21 +19,85 @@
     <v-row>
       <v-col>
         <v-card>
+          <v-toolbar
+            dark
+            color="indigo"
+            class="font-weight-bold"
+            flat
+          >
+            카트리스트
+            <v-spacer></v-spacer>
+            <v-btn
+              icon
+              @click="addCart"
+            >
+              <v-icon>fa-plus</v-icon>
+            </v-btn>
+          </v-toolbar>
           <v-list
             outline
           >
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title>
+                  <v-row
+                    class="text-center text-overline font-weight-black"
+                  >
+                    <v-col>카트날짜</v-col>
+                    <v-col>카트번호</v-col>
+                    <v-col>카트명</v-col>
+                    <v-col></v-col>
+                  </v-row>
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
             <v-list-item
-              to="/cart"
+              v-for="(cart, idx) of cartList" :key="idx"
             >
               <v-list-item-content>
                 <v-list-item-title>
-                  Cart
+                  <v-row>
+                    <v-col
+                      class="text-center"
+                    >{{ cart.createdAt }}</v-col>
+                    <v-col
+                      class="text-center"
+                    >{{ cart.seq }}</v-col>
+                    <v-col>{{ cart.cmpNm }}</v-col>
+                  </v-row>
                 </v-list-item-title>
               </v-list-item-content>
-              <v-list-item-action>
+              <v-list-item-icon>
                 <v-chip>
-                  {{ cartCnt }}
+                  {{ cart.count }}
                 </v-chip>
+              </v-list-item-icon>
+              <v-list-item-action>
+                <v-btn-toggle
+                  dense
+                  group
+                >
+                  <v-btn
+                    icon
+                    @click="movePage(cart.id, '/cart')"
+                  >
+                    <v-icon small>fa-list</v-icon>
+                  </v-btn>
+                  <v-btn
+                    icon
+                    color="primary"
+                    @click="movePage(cart.id, '/prices')"
+                  >
+                    <v-icon small>fa-plus</v-icon>
+                  </v-btn>
+                  <v-btn
+                    icon
+                    color="red"
+                    @click="removeCart(cart.id)"
+                  >
+                    <v-icon small>fa-trash</v-icon>
+                  </v-btn>
+                </v-btn-toggle>
               </v-list-item-action>
             </v-list-item>
           </v-list>
@@ -61,14 +125,14 @@ export default {
   data() {
     return {
       memberinfo: {},
-      cartCnt: 0,
       isMemberEdit: false,
-      isCompanyEdit: false
+      isCompanyEdit: false,
     }
   },
   computed: {
     ...mapGetters({
-      loginUser: 'user/userinfo'
+      loginUser: 'user/userinfo',
+      cartList: 'cart/cartList'
     }),
   },
   methods: {
@@ -76,12 +140,23 @@ export default {
       this.$store.dispatch('user/findId', this.loginUser.id)
           .then(res => {
             this.memberinfo = res.data;
-            this.cartCnt = 0;
           });
+
+      this.$store.dispatch('cart/findCarts');
+    },
+    movePage(id, page) {
+      this.$store.commit('cart/setCartId', id);
+      this.$router.push(page);
     },
     onEdit(cmd) {
       if(cmd === 'member') this.isMemberEdit = true;
       else this.isCompanyEdit = true;
+    },
+    addCart() {
+      this.$store.dispatch('cart/addCart');
+    },
+    removeCart(id) {
+      this.$store.dispatch('cart/removeCart', id);
     },
     onFinish() {
       this.findUserInfo();

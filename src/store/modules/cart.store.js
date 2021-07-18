@@ -6,15 +6,23 @@ const state = () => ({
   limit: 15,
   total: 0,
   loading: false,
+  cartList: [],
   carts: [],
+  cartId: 0,
   isShowDialog: false,
   selectedItem: []
 })
 
 // getters
 const getters = {
+  cartList(state) {
+    return state.cartList;
+  },
   carts(state) {
     return state.carts;
+  },
+  cartId(state) {
+    return state.cartId;
   },
   pageNum(state) {
     return state.pageNum;
@@ -41,13 +49,50 @@ const getters = {
 
 // actions
 const actions = {
-  async findAll({ commit, state, rootGetters }) {
-    commit('enableLoading');
-    // 전역 store 이용. user의 userinfo getter를 호출
-    const { id } = rootGetters['user/userinfo'];
+  async findCarts({ commit, rootGetters }) {
+    commit('loading/enable', {}, { root: true });
+
+    const { code } = rootGetters['user/userinfo'];
+    await instance
+            .get(`/cart/findCartList/${code}`)
+            .then(res => {
+              commit('setCartList', res.data);
+              commit('loading/disable', {}, { root: true });
+            })
+  },
+  async addCart({ dispatch, rootGetters }) {
+    const { code } = rootGetters['user/userinfo'];
+    const cart = { userCd: code };
+    dispatch('saveCart', { cart });
+  },
+  async saveCart({ dispatch, commit }, payload) {
+    commit('loading/enable', {}, { root: true });
 
     await instance
-            .get(`/users/carts/${id}?page=${state.pageNum}&limit=${state.limit}`)
+            .post('/cart/add', payload.cart)
+            .then(() => {
+              dispatch('msg/showInfo', '항목 저장되었습니다.', { root: true });
+              commit('loading/disable', {}, { root: true });
+            })
+            .finally(() => dispatch('findCarts'))
+  },
+  async removeCart({ dispatch, commit }, payload) {
+    commit('loading/enable', {}, { root: true });
+
+    await instance
+            .delete(`/cart/remove/${payload}`)
+            .then(() => {
+              dispatch('msg/showInfo', '항목이 삭제되었습니다.', { root: true });
+              commit('loading/disable', {}, { root: true });
+            })
+            .finally(() => dispatch('findCarts'))
+  },
+
+  async findAll({ commit, state }) {
+    commit('enableLoading');
+
+    await instance
+            .get(`/users/carts/${state.cartId}?page=${state.pageNum}&limit=${state.limit}`)
             .then(res => {
               commit('setCarts', res.data.rows);
               commit('setTotal', res.data.count);
@@ -57,13 +102,11 @@ const actions = {
               commit('disableLoading');
             })
   },
-  async searchCart({ commit, state, rootGetters }, payload) {
+  async searchCart({ commit, state }, payload) {
     commit('enableLoading');
-    // 전역 store 이용. user의 userinfo getter를 호출
-    const { id } = rootGetters['user/userinfo'];
 
     await instance
-            .post(`/users/carts/${id}`, {
+            .post(`/users/carts/${state.cartId}`, {
               page: state.pageNum,
               limit: state.limit,
               categorys: payload.categorys,
@@ -78,20 +121,17 @@ const actions = {
               commit('disableLoading');
             })
   },
-  async addCart({ dispatch, commit, rootGetters }, payload) {
+  async addCartItem({ dispatch, commit, state }, payload) {
     commit('loading/enable', {}, { root: true });
 
-    // 전역 store 이용. user의 userinfo getter를 호출
-    const { code } = rootGetters['user/userinfo'];
-    const cart = {
-      userCd: code,
+    const cartItem = {
+      cartId: state.cartId,
       itemCd: payload.code,
-      itemSeq: 1,
       quantity: payload.quantity || 1
     };
     
     await instance
-            .post('/cart/add', cart)
+            .post('/cart/addItem', cartItem)
             .then(() => {
               dispatch('msg/showInfo', '제품이 카트에 추가되었습니다.', { root: true });
               commit('loading/disable', {}, { root: true });
@@ -100,28 +140,28 @@ const actions = {
               commit('loading/disable', {}, { root: true });
             });
   },
-  async updateCart({ dispatch }, payload) { 
+  async updateCartItem({ dispatch }, payload) { 
     await instance
-            .patch(`/cart/update`, payload)
+            .patch(`/cart/updateItem`, payload)
             .then(() => {
               dispatch('msg/showInfo', '수량이 변경되었습니다.', { root: true });
               dispatch('findAll');
             });
   },
-  async removeCart({ dispatch }, payload) {
+  async removeCartItem({ dispatch }, payload) {
     await instance
-            .delete(`/cart/remove/${payload}`)
+            .delete(`/cart/removeItem/${payload}`)
             .then(() => {
               dispatch('msg/showInfo', '항목이 삭제되었습니다.', { root: true });
               dispatch('findAll');
             })
   },
-  async removeCarts({ dispatch, commit }, payload) {
+  async removeCartItems({ dispatch, commit }, payload) {
     commit('loading/enable', {}, { root: true });
 
     await instance
-            .post('/cart/remove',{
-              carts: payload
+            .post('/cart/removeItems',{
+              cartItems: payload
             })
             .then((res) => {
               commit('loading/disable', {}, { root: true });
@@ -133,8 +173,14 @@ const actions = {
 
 // mutations
 const mutations = {
+  setCartList(state, payload) {
+    state.cartList = payload;
+  },
   setCarts(state, payload) {
     state.carts = payload;
+  },
+  setCartId(state, payload) {
+    state.cartId = payload;
   },
   setTotal(state, payload) {
     state.total = payload;

@@ -36,12 +36,12 @@
     </v-card>
 
     <section v-if="isCardView">
-      <CardContents :items="items" @scrollEnd="loadItems" @onAdd="addCart"/>
+      <CardContents :items="items" @scrollEnd="loadItems" @onAdd="addCartItem"/>
     </section>
     <section v-else>
-      <TableContents :items="items" @changePage="loadItems"  @onAdd="addCart"/>
+      <TableContents :items="items" @changePage="loadItems"  @onAdd="addCartItem"/>
     </section>
-    <DetailPop @onAdd="addCart"/>
+    <DetailPop @onAdd="addCartItem"/>
   </div>
 </template>
 <script>
@@ -88,8 +88,8 @@ export default {
       this.$store.dispatch('item/searchItems', { searchTxt: this.searchTxt });
       setInterval(() => { if (this.$store.getters["item/loading"]) this.$store.commit('item/disableLoading') }, 5000)
     },
-    addCart(item) {
-      this.$store.dispatch('cart/addCart', item);
+    addCartItem(item) {
+      this.$store.dispatch('cart/addCartItem', item);
     },
     initPage() {
       this.searchTxt = '';

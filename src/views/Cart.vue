@@ -334,13 +334,13 @@ export default {
       this.editedItem = {...item};
     },
     onSave() {
-      this.$store.dispatch('cart/updateCart', this.editedItem);
+      this.$store.dispatch('cart/updateCartItem', this.editedItem);
     },
     onPopupSave(popupDate) {
-      this.$store.dispatch('cart/updateCart', popupDate);
+      this.$store.dispatch('cart/updateCartItem', popupDate);
     },
     onRemove(item) {
-      this.$store.dispatch('cart/removeCart', item.id);
+      this.$store.dispatch('cart/removeCartItem', item.id);
     },
     onRemoveCarts() {
       this.$store.dispatch('cart/removeCarts', this.selected);

@@ -248,7 +248,7 @@ export default {
 
   watch: {
     isLogin(val) {
-      if (val) this.$router.push('/');
+      if (val) this.$router.push('/mypage');
     },
     langType(val) {
       this.$store.commit('lang/setType', val);
