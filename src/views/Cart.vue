@@ -3,6 +3,75 @@
     fluid
   >
     <v-card
+      class="mb-2"
+    >
+      <v-toolbar
+        color="indigo"
+        dark
+        flat
+      >
+        <v-toolbar-title>
+          카트정보
+        </v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-btn
+          fab
+          icon
+          @click="saveCartInfo"
+        >
+          <v-icon>fa-save</v-icon>
+        </v-btn>
+      </v-toolbar>
+
+      <v-card-text>
+        <v-form>
+          <v-row>
+            <v-col>
+              <v-text-field
+                v-model="cartInfo.date"
+                label="생성날짜"
+                readonly
+              ></v-text-field>
+            </v-col>
+            <v-col>
+              <v-text-field
+                v-model="cartInfo.seq"
+                label="생성순번"
+                readonly
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-text-field
+                v-model="cartInfo.name"
+                label="카트명"
+              ></v-text-field>
+            </v-col>
+            <v-col>
+              <v-autocomplete
+                v-model="cartInfo.cmpId"
+                :search-input.sync="cartInfo.cmpNm"
+                label="요청업체"
+                :items="companyList"
+                item-text="name"
+                item-value="id"
+              ></v-autocomplete>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-text-field
+                v-model="cartInfo.memo"
+                label="메모"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+        </v-form>
+      </v-card-text>
+    </v-card>
+
+    <v-card
       color="indigo"
       class="mb-2"
       tile
@@ -279,7 +348,8 @@ export default {
       editedItem: {},
       searchTxt: '',
       selectedCategorys: [''],
-      categoryCompanyList: []
+      categoryCompanyList: [],
+      companyNm: ''
     }
   },
   watch: {
@@ -297,13 +367,17 @@ export default {
       total: 'cart/total',
       cartCategorys: 'cart/cartCategorys',
       loading: 'cart/loading',
-      langType: 'lang/type'
+      langType: 'lang/type',
+      companyList: 'user/companyList'
     }),
     pageNum() {
       return this.$store.getters['cart/pageNum'] + 1;
     },
     categorys() {
       return [{ code: '', nameKor: 'ALL' }, ...(this.$store.getters['category/categorys'])];
+    },
+    cartInfo() {
+      return {...{}, ...(this.$store.getters['cart/cartInfo'])};
     }
   },
   methods: {
@@ -313,6 +387,7 @@ export default {
     },
     getCartList() {
       this.$store.dispatch('category/findAll');
+      this.$store.dispatch('user/findCompAll');
       this.$store.dispatch('cart/findAll');
     },
     getCompanyList() {
@@ -329,6 +404,9 @@ export default {
     updateLimit(limit) {
       this.$store.commit('cart/setLimit', limit);
       this.$store.dispatch('cart/searchCart', { categorys: this.selectedCategorys, search: this.searchTxt })
+    },
+    saveCartInfo() {
+      this.$store.dispatch('cart/saveCart', { cart: this.cartInfo });
     },
     onOpen(item) {
       this.editedItem = {...item};

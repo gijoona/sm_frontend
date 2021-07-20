@@ -43,7 +43,7 @@
                   <v-row
                     class="text-center text-overline font-weight-black"
                   >
-                    <v-col>카트날짜</v-col>
+                    <v-col>생성일자</v-col>
                     <v-col>카트번호</v-col>
                     <v-col>카트명</v-col>
                     <v-col></v-col>
@@ -59,11 +59,11 @@
                   <v-row>
                     <v-col
                       class="text-center"
-                    >{{ cart.createdAt }}</v-col>
+                    >{{ cart.date }}</v-col>
                     <v-col
                       class="text-center"
                     >{{ cart.seq }}</v-col>
-                    <v-col>{{ cart.cmpNm }}</v-col>
+                    <v-col>{{ cart.name }}</v-col>
                   </v-row>
                 </v-list-item-title>
               </v-list-item-content>
@@ -79,14 +79,14 @@
                 >
                   <v-btn
                     icon
-                    @click="movePage(cart.id, '/cart')"
+                    @click="movePage(cart, '/cart')"
                   >
                     <v-icon small>fa-list</v-icon>
                   </v-btn>
                   <v-btn
                     icon
                     color="primary"
-                    @click="movePage(cart.id, '/prices')"
+                    @click="movePage(cart, '/prices')"
                   >
                     <v-icon small>fa-plus</v-icon>
                   </v-btn>
@@ -144,8 +144,8 @@ export default {
 
       this.$store.dispatch('cart/findCarts');
     },
-    movePage(id, page) {
-      this.$store.commit('cart/setCartId', id);
+    movePage(cart, page) {
+      this.$store.commit('cart/setCartInfo', cart);
       this.$router.push(page);
     },
     onEdit(cmd) {
@@ -153,7 +153,10 @@ export default {
       else this.isCompanyEdit = true;
     },
     addCart() {
-      this.$store.dispatch('cart/addCart');
+      this.$store.dispatch('cart/addCart')
+          .then(() => {
+            this.$router.push('/cart');
+          });
     },
     removeCart(id) {
       this.$store.dispatch('cart/removeCart', id);

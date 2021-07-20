@@ -5,6 +5,7 @@ const state = () => ({
   username: '',
   password: '',
   userinfo: {},
+  companyList: [],
   isLogin: false
 })
 
@@ -21,6 +22,9 @@ const getters = {
   },
   isLogin(state) {
     return state.isLogin;
+  },
+  companyList(state) {
+    return state.companyList;
   }
 }
 
@@ -79,6 +83,14 @@ const actions = {
                 return res;
               })
   },
+  async findCompAll({ commit }) {
+    await instance
+              .get('/comps/findComp?search=')
+              .then(res => {
+                console.log(res.data);
+                commit('setCompanyList', res.data);
+              })
+  },
   async registComp({ commit }, payload) {
     commit('loading/enable', {}, { root: true });
     payload.companyInfo.categorys = payload.categorys;
@@ -116,6 +128,9 @@ const mutations = {
   logoutSuccess(state) {
     state.userinfo = {};
     state.isLogin = false;
+  },
+  setCompanyList(state, payload) {
+    state.companyList = payload;
   }
 }
 

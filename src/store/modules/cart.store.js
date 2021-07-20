@@ -10,7 +10,8 @@ const state = () => ({
   carts: [],
   cartId: 0,
   isShowDialog: false,
-  selectedItem: []
+  selectedItem: [],
+  cartInfo: {}
 })
 
 // getters
@@ -44,6 +45,9 @@ const getters = {
   },
   cartCategorys(state) {
     return [...new Set(state.carts.map(cart => cart.itemCd.substring(0, 2)).sort())];
+  },
+  cartInfo(state) {
+    return state.cartInfo;
   }
 }
 
@@ -60,16 +64,24 @@ const actions = {
               commit('loading/disable', {}, { root: true });
             })
   },
-  async addCart({ dispatch, rootGetters }) {
+  async addCart({ dispatch, commit, rootGetters }) {
     const { code } = rootGetters['user/userinfo'];
     const cart = { userCd: code };
-    dispatch('saveCart', { cart });
+
+    return await instance
+            .post('/cart/add', { cart })
+            .then((res) => {
+              dispatch('msg/showInfo', '항목 저장되었습니다.', { root: true });
+              commit('setCartInfo', res.data);
+              commit('loading/disable', {}, { root: true });
+            })
+            .finally(() => dispatch('findCarts'))
   },
   async saveCart({ dispatch, commit }, payload) {
     commit('loading/enable', {}, { root: true });
 
     await instance
-            .post('/cart/add', payload.cart)
+            .patch('/cart/update', payload.cart)
             .then(() => {
               dispatch('msg/showInfo', '항목 저장되었습니다.', { root: true });
               commit('loading/disable', {}, { root: true });
@@ -92,7 +104,7 @@ const actions = {
     commit('enableLoading');
 
     await instance
-            .get(`/users/carts/${state.cartId}?page=${state.pageNum}&limit=${state.limit}`)
+            .get(`/users/carts/${state.cartInfo.Id}?page=${state.pageNum}&limit=${state.limit}`)
             .then(res => {
               commit('setCarts', res.data.rows);
               commit('setTotal', res.data.count);
@@ -106,7 +118,7 @@ const actions = {
     commit('enableLoading');
 
     await instance
-            .post(`/users/carts/${state.cartId}`, {
+            .post(`/users/carts/${state.cartInfo.Id}`, {
               page: state.pageNum,
               limit: state.limit,
               categorys: payload.categorys,
@@ -125,7 +137,7 @@ const actions = {
     commit('loading/enable', {}, { root: true });
 
     const cartItem = {
-      cartId: state.cartId,
+      cartId: state.cartInfo.Id,
       itemCd: payload.code,
       quantity: payload.quantity || 1
     };
@@ -207,6 +219,9 @@ const mutations = {
   },
   updatedItem(state, payload) {
     state.selectedItem = payload;
+  },
+  setCartInfo(state, payload) {
+    state.cartInfo = payload;
   }
 }
 
