@@ -79,14 +79,14 @@
                 >
                   <v-btn
                     icon
-                    @click="movePage(cart, '/cart')"
+                    @click="movePage(cart, 'cart')"
                   >
                     <v-icon small>fa-list</v-icon>
                   </v-btn>
                   <v-btn
                     icon
                     color="primary"
-                    @click="movePage(cart, '/prices')"
+                    @click="movePage(cart, 'prices')"
                   >
                     <v-icon small>fa-plus</v-icon>
                   </v-btn>
@@ -155,7 +155,7 @@ export default {
     addCart() {
       this.$store.dispatch('cart/addCart')
           .then(() => {
-            this.$router.push('/cart');
+            this.$router.push('cart');
           });
     },
     removeCart(id) {

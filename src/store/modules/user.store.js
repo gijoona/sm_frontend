@@ -87,7 +87,6 @@ const actions = {
     await instance
               .get('/comps/findComp?search=')
               .then(res => {
-                console.log(res.data);
                 commit('setCompanyList', res.data);
               })
   },

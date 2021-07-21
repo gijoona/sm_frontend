@@ -9,10 +9,9 @@
         color="indigo"
         dark
         flat
+        dense
       >
-        <v-toolbar-title>
-          카트정보
-        </v-toolbar-title>
+        카트정보
         <v-spacer></v-spacer>
         <v-btn
           fab
@@ -266,6 +265,41 @@
           </template>
           <!-- Bodys -->
 
+          <!-- no data or no results -->
+          <template v-slot:no-data>
+            <v-btn
+              to="/prices"
+              color="indigo"
+              dark
+              text
+              x-large
+              block
+              class="font-weight-black"
+            >
+              <v-icon 
+                small
+                class="mr-2"
+              >fa-plus</v-icon>
+              제품담기
+            </v-btn>
+          </template>
+          <template v-slot:no-results>
+            <v-btn
+              to="/prices"
+              color="indigo"
+              dark
+              text
+              x-large
+              block
+              class="font-weight-black"
+            >
+              <v-icon 
+                small
+                class="mr-2"
+              >fa-plus</v-icon>
+              제품담기
+            </v-btn>
+          </template>
         </v-data-table>
       </v-col>
     </v-row>
@@ -466,7 +500,11 @@ export default {
     }
   },
   mounted() {
-    this.getCartList();
+    if(this.cartInfo && this.cartInfo.id) this.getCartList();
+    else {
+      alert('마이페이지 > 카트리스트에서 카트를 선택해주세요.');
+      this.$router.push('mypage');
+    }
   }
 }
 </script>

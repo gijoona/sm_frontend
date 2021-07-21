@@ -69,7 +69,7 @@ const actions = {
     const cart = { userCd: code };
 
     return await instance
-            .post('/cart/add', { cart })
+            .post('/cart/add', cart)
             .then((res) => {
               dispatch('msg/showInfo', '항목 저장되었습니다.', { root: true });
               commit('setCartInfo', res.data);
@@ -83,6 +83,7 @@ const actions = {
     await instance
             .patch('/cart/update', payload.cart)
             .then(() => {
+              commit('setCartInfo', payload.cart);
               dispatch('msg/showInfo', '항목 저장되었습니다.', { root: true });
               commit('loading/disable', {}, { root: true });
             })
@@ -104,7 +105,7 @@ const actions = {
     commit('enableLoading');
 
     await instance
-            .get(`/users/carts/${state.cartInfo.Id}?page=${state.pageNum}&limit=${state.limit}`)
+            .get(`/users/carts/${state.cartInfo.id}?page=${state.pageNum}&limit=${state.limit}`)
             .then(res => {
               commit('setCarts', res.data.rows);
               commit('setTotal', res.data.count);
@@ -118,7 +119,7 @@ const actions = {
     commit('enableLoading');
 
     await instance
-            .post(`/users/carts/${state.cartInfo.Id}`, {
+            .post(`/users/carts/${state.cartInfo.id}`, {
               page: state.pageNum,
               limit: state.limit,
               categorys: payload.categorys,
@@ -135,9 +136,9 @@ const actions = {
   },
   async addCartItem({ dispatch, commit, state }, payload) {
     commit('loading/enable', {}, { root: true });
-
+    
     const cartItem = {
-      cartId: state.cartInfo.Id,
+      cartId: state.cartInfo.id,
       itemCd: payload.code,
       quantity: payload.quantity || 1
     };

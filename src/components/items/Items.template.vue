@@ -73,7 +73,9 @@ export default {
       categoryName: 'category/name',
       items: 'item/items',
       loading: 'item/loading',
-      isCardView: 'item/isCardView'
+      isCardView: 'item/isCardView',
+      userInfo: 'user/userinfo',
+      cartInfo: 'cart/cartInfo'
     })
   },
   methods: {
@@ -89,7 +91,17 @@ export default {
       setInterval(() => { if (this.$store.getters["item/loading"]) this.$store.commit('item/disableLoading') }, 5000)
     },
     addCartItem(item) {
-      this.$store.dispatch('cart/addCartItem', item);
+      if(this.userInfo && this.userInfo.id) {
+        if(this.cartInfo && this.cartInfo.id) {
+          this.$store.dispatch('cart/addCartItem', item);
+        } else {
+          alert('마이페이지 > 카트리스트에서 카트를 선택해주세요.')
+          this.$router.push('mypage');  
+        }
+      } else {
+        alert('로그인 후 카트기능을 이용하실 수 있습니다.')
+        this.$router.push('login');
+      }
     },
     initPage() {
       this.searchTxt = '';
