@@ -66,22 +66,25 @@
                 <v-col
                   cols="12"
                   sm="2"
+                  class="pt-5"
                 >{{ cart.date }}</v-col>
                 <v-divider vertical></v-divider>
                 <v-col
                   cols="12"
                   sm="1"
+                  class="pt-5"
                 >{{ cart.seq }}</v-col>
                 <v-divider vertical></v-divider>
                 <v-col
                   cols="12"
                   sm="6"
-                  class="text-left"
+                  class="pt-5 px-3 text-left"
                 >{{ cart.name }}</v-col>
                 <v-divider vertical></v-divider>
                 <v-col
                   cols="12"
                   sm="1"
+                  class="pt-5"
                 >{{ cart.count }}</v-col>
                 <v-divider vertical></v-divider>
                 <v-col
