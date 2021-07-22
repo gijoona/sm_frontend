@@ -58,70 +58,99 @@
                 <v-col></v-col>
               </v-row>
               <v-divider></v-divider>
-              <v-row
-                v-for="(cart, idx) of cartList" :key="idx"
-                dense
-                justify="center"
+              <div
+                v-if="cartList.length > 0"
               >
-                <v-col
-                  cols="12"
-                  sm="2"
-                  class="pt-5"
-                >{{ cart.date }}</v-col>
-                <v-divider vertical></v-divider>
-                <v-col
-                  cols="12"
-                  sm="1"
-                  class="pt-5"
-                >{{ cart.seq }}</v-col>
-                <v-divider vertical></v-divider>
-                <v-col
-                  cols="12"
-                  sm="6"
-                  class="pt-5 px-3 text-left"
-                >{{ cart.name }}</v-col>
-                <v-divider vertical></v-divider>
-                <v-col
-                  cols="12"
-                  sm="1"
-                  class="pt-5"
-                >{{ cart.count }}</v-col>
-                <v-divider vertical></v-divider>
-                <v-col
-                  class="text-right"
+                <v-row
+                  v-for="(cart, idx) of cartList" :key="idx"
+                  dense
+                  justify="center"
                 >
-                  <v-btn-toggle
-                    dense
-                    group
+                  <v-col
+                    cols="12"
+                    sm="2"
+                    class="pt-5"
+                  >{{ cart.date }}</v-col>
+                  <v-divider vertical></v-divider>
+                  <v-col
+                    cols="12"
+                    sm="1"
+                    class="pt-5"
+                  >{{ cart.seq }}</v-col>
+                  <v-divider vertical></v-divider>
+                  <v-col
+                    cols="12"
+                    sm="6"
+                    class="pt-5 px-3 text-left"
+                  >{{ cart.name }}</v-col>
+                  <v-divider vertical></v-divider>
+                  <v-col
+                    cols="12"
+                    sm="1"
+                    class="pt-5"
+                  >{{ cart.count }}</v-col>
+                  <v-divider vertical></v-divider>
+                  <v-col
+                    class="text-right"
+                  >
+                    <v-btn-toggle
+                      dense
+                      group
+                    >
+                      <v-btn
+                        icon
+                        @click="movePage(cart, 'cart')"
+                      >
+                        <v-icon small>fa-list</v-icon>
+                      </v-btn>
+                      <v-btn
+                        icon
+                        color="primary"
+                        @click="movePage(cart, 'prices')"
+                      >
+                        <v-icon small>fa-plus</v-icon>
+                      </v-btn>
+                      <v-btn
+                        icon
+                        color="red"
+                        @click="removeCart(cart.id)"
+                      >
+                        <v-icon small>fa-trash</v-icon>
+                      </v-btn>
+                    </v-btn-toggle>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                  >
+                    <v-divider></v-divider>
+                  </v-col>
+                </v-row>
+              </div>
+              <div
+                v-else
+              >
+                <v-row>
+                  <v-col
+                    cols="12"
                   >
                     <v-btn
-                      icon
-                      @click="movePage(cart, 'cart')"
-                    >
-                      <v-icon small>fa-list</v-icon>
-                    </v-btn>
-                    <v-btn
-                      icon
+                      text
+                      block
                       color="primary"
-                      @click="movePage(cart, 'prices')"
+                      x-large
+                      @click="addCart"
                     >
-                      <v-icon small>fa-plus</v-icon>
+                      <v-icon
+                        class="mr-2"
+                      >fa-plus</v-icon>
+                      카트생성
                     </v-btn>
-                    <v-btn
-                      icon
-                      color="red"
-                      @click="removeCart(cart.id)"
-                    >
-                      <v-icon small>fa-trash</v-icon>
-                    </v-btn>
-                  </v-btn-toggle>
-                </v-col>
-                <v-col
-                  cols="12"
-                >
-                  <v-divider></v-divider>
-                </v-col>
-              </v-row>
+                  </v-col>
+                  <v-col>
+                    <v-divider></v-divider>
+                  </v-col>
+                </v-row>
+              </div>
             </v-container>
           </v-card-text>
         </v-card>
